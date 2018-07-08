@@ -41,7 +41,7 @@ local function list_add_list(inv, list_name, list)
 	return leftover_list
 end
 
-local function migrate_shop_node(pos, node)
+function exchange_shop.migrate_shop_node(pos, node)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
 	local title = meta:get_string("infotext")
@@ -76,22 +76,24 @@ local function migrate_shop_node(pos, node)
 	minetest.swap_node(pos, node)
 end
 
-minetest.register_lbm({
-	label = "currency shop to exchange shop migration",
-        name = "exchange_shop:currency_migrate",
-        nodenames = { "currency:shop" },
-        run_at_every_load = true, -- TODO this for testing only
-	action = migrate_shop_node
-})
+if exchange_shop.migrate.use_lbm then
+	minetest.register_lbm({
+		label = "currency shop to exchange shop migration",
+		name = "exchange_shop:currency_migrate",
+		nodenames = { "currency:shop" },
+		run_at_every_load = false,
+		action = exchange_shop.migrate_shop_node
+	})
 
--- Clean up garbage
-minetest.register_on_joinplayer(function(player)
-	local inv = player:get_inventory()
-	for i, name in pairs({"customer_gives", "customer_gets"}) do
-		if inv:get_size(name) > 0 then
-			local leftover = list_add_list(inv, "main", inv:get_list(name))
-			list_add_list(inv, "craft", leftover)
-			inv:set_size(name, 0)
+	-- Clean up garbage
+	minetest.register_on_joinplayer(function(player)
+		local inv = player:get_inventory()
+		for i, name in pairs({"customer_gives", "customer_gets"}) do
+			if inv:get_size(name) > 0 then
+				local leftover = list_add_list(inv, "main", inv:get_list(name))
+				list_add_list(inv, "craft", leftover)
+				inv:set_size(name, 0)
+			end
 		end
-	end
-end)
+	end)
+end

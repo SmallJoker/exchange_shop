@@ -8,63 +8,83 @@ This code is based on the idea of Dan Duncombe's exchange shop
 
 local shop_positions = {}
 
-local function get_exchange_shop_formspec(mode, pos, title)
+local function get_exchange_shop_formspec(mode, pos, meta)
 	local name = "nodemeta:"..pos.x..","..pos.y..","..pos.z
+	meta = meta or minetest.get_meta(pos)
 
 	local function listring(src)
 		return "listring[".. name ..";" .. src .. "]" ..
 			"listring[current_player;main]"
 	end
 	if mode == "customer" then
+		local overflow = not meta:get_inventory():is_empty("cust_ej")
+
 		-- customer
-		return (
-			"size[8,9;]"..
-			"label[0,0;Exchange shop]"..
-			"label[1,0.5;Owner needs:]"..
+		local formspec = (
+			(overflow and "size[8,9]" or "size[8,8]")..
+			"label[1,0.4;You give:]"..
 			"list["..name..";cust_ow;1,1;2,2;]"..
 			"button[3,2.4;2,1;exchange;Exchange]"..
-			"label[5,0.5;Owner gives:]"..
-			"list["..name..";cust_og;5,1;2,2;]"..
-			"label[0.7,3.5;Ejected items:]"..
-			"label[0.7,3.8;(Remove me!)]"..
-			"list["..name..";cust_ej;3,3.5;4,1;]"..
-			"list[current_player;main;0,5;8,4;]"..
-			listring("cust_ej")
+			"label[5,0.4;You get:]"..
+			"list["..name..";cust_og;5,1;2,2;]"
+		)
+		-- Insert fallback slots
+		local inv_pos = 4
+		if overflow then
+			formspec = (formspec ..
+				"label[0.7,3.5;Ejected items:]"..
+				"label[0.7,3.8;(Remove me!)]"..
+				"list["..name..";cust_ej;3,3.5;4,1;]"
+			)
+			inv_pos = 5
+		end
+		return (formspec ..
+			"list[current_player;main;0," .. inv_pos .. ";8,4;]"..
+			(overflow and listring("cust_ej") or "")
 		)
 	end
 	if mode == "owner_custm"
 			or mode == "owner_stock" then
+		local overflow = not meta:get_inventory():is_empty("custm_ej")
+		local title = meta:get_string("title")
+
 		-- owner
 		local formspec = (
-			"size[11,10;]"..
-			"label[0.3,0.1;Title:]"..
-			"field[1.5,0.5;3,0.5;title;;"..title.."]"..
+			"size[10,10]"..
+			"label[0,0.1;Title:]"..
+			"field[1.2,0.5;3,0.5;title;;"..title.."]"..
 			"field_close_on_enter[title;false]"..
-			"button[4.1,0.2;1,0.5;set_title;Set]"..
-			"label[0,0.7;You need:]"..
-			"list["..name..";cust_ow;0,1.2;2,2;]"..
-			"label[3,0.7;You give:]"..
-			"list["..name..";cust_og;3,1.2;2,2;]"..
-			"label[0,3.5;Ejected items: (Remove me!)]"..
-			"list["..name..";custm_ej;0,4;4,1;]"..
-			"label[6,0;You are viewing:]"..
-			"label[6,0.3;(Click to switch)]"..
-			listring("custm_ej")
+			"button[3.9,0.2;1,0.5;set_title;Set]"..
+			"container[0,2]"..
+			"label[0,-0.6;You need:]"..
+			"list["..name..";cust_ow;0,0;2,2;]"..
+			"label[2.5,-0.6;You give:]"..
+			"list["..name..";cust_og;2.5,0;2,2;]"..
+			"container_end[]"..
+			"label[5,0.1;Current stock:]"
 		)
+
+		if overflow then
+			formspec = (formspec..
+				"list["..name..";custm_ej;0.2,4;4,1;]"..
+				"label[0.2,4.9;Ejected items: (Remove me!)]"..
+				listring("custm_ej")
+			)
+		end
 
 		if mode == "owner_custm" then
 			formspec = (formspec..
-				"button[8.5,0.2;2.5,0.5;view_stock;Customers stock]"..
-				"list["..name..";custm;6,1;5,4;]"..
+				"button[7.5,0.2;2.5,0.5;view_stock;Income]"..
+				"list["..name..";custm;5,1;5,4;]"..
 				listring("custm"))
 		else
 			formspec = (formspec..
-				"button[8.5,0.2;2.5,0.5;view_custm;Your stock]"..
-				"list["..name..";stock;6,1;5,4;]"..
+				"button[7.5,0.2;2.5,0.5;view_custm;Outgoing]"..
+				"list["..name..";stock;5,1;5,4;]"..
 				listring("stock"))
 		end
 		return (formspec..
-			"label[1,5;Use (E) + (Right click) for customer interface]"..
+			"label[1,5.4;Use (E) + (Right click) for customer interface]"..
 			"list[current_player;main;1,6;8,4;]")
 	end
 	return ""
@@ -115,23 +135,25 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			return
 		end
 
-		local err_msg = exchange_shop.exchange_action(player_inv, shop_inv)
+		local err_msg, resend = exchange_shop.exchange_action(player_inv, shop_inv)
 		-- Throw error message
 		if err_msg then
 			minetest.chat_send_player(player_name, minetest.colorize("#F33",
 				"Exchange shop: " .. err_msg))
 		end
-	elseif exchange_shop.has_access(meta, player_name) then
-		local mode
+		if resend then
+			minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
+				get_exchange_shop_formspec("customer", pos, meta))
+		end
+	end
+	if (fields.view_custm or fields.view_stock)
+			and exchange_shop.has_access(meta, player_name) then
+		local mode = "owner_stock"
 		if fields.view_custm then
 			mode = "owner_custm"
-		elseif fields.view_stock then
-			mode = "owner_stock"
-		else
-			return
 		end
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, title))
+			get_exchange_shop_formspec(mode, pos, meta))
 	end
 end)
 
@@ -202,7 +224,7 @@ minetest.register_node(exchange_shop.shopname, {
 		end
 		shop_positions[player_name] = pos
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, meta:get_string("title")))
+			get_exchange_shop_formspec(mode, pos, meta))
 	end,
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
@@ -212,12 +234,9 @@ minetest.register_node(exchange_shop.shopname, {
 		return 0
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
-		if player:get_player_name() == ":pipeworks" then
-			return stack:get_count()
-		end
 		if listname == "custm" then
 			minetest.chat_send_player(player:get_player_name(),
-				"Exchange shop: Please press 'Customers stock' and insert your items there.")
+				"Exchange shop: Insert your trade goods into 'Outgoing'.")
 			return 0
 		end
 		local meta = minetest.get_meta(pos)
@@ -229,9 +248,6 @@ minetest.register_node(exchange_shop.shopname, {
 		return 0
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
-		if player:get_player_name() == ":pipeworks" then
-			return stack:get_count()
-		end
 		local meta = minetest.get_meta(pos)
 		if exchange_shop.has_access(meta, player:get_player_name())
 				or listname == "cust_ej" then

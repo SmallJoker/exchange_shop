@@ -157,6 +157,6 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 		end
 	end
 	if not fully_exchanged then
-		return "Warning! Stacks are overflowing somewhere!"
+		return "Warning! Stacks are overflowing somewhere!", true
 	end
 end

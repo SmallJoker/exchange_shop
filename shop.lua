@@ -165,22 +165,7 @@ minetest.register_node(exchange_shop.shopname, {
 		"shop_side.png", "shop_front.png"
 	},
 	paramtype2 = "facedir",
-	groups = {choppy=2, oddly_breakable_by_hand=2, 
-		tubedevice=1, tubedevice_receiver=1},
-	tube = {
-		insert_object = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:add_item("stock", stack)
-		end,
-		can_insert = function(pos, node, stack, direction)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:room_for_item("stock", stack)
-		end,
-		input_inventory = "custm",
-		connect_sides = {left=1, right=1, back=1, top=1, bottom=1}
-	},
+	groups = {choppy=2, oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)

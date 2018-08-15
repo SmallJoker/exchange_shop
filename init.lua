@@ -23,6 +23,7 @@ else
 	dofile(modpath .. "/shop_functions.lua")
 	dofile(modpath .. "/shop.lua")
 end
+dofile(modpath .. "/pipes.lua")
 
 if has_currency then
 	local new_groups = table.copy(minetest.registered_nodes["currency:shop"].groups)

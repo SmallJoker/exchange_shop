@@ -1,3 +1,7 @@
+if not minetest.get_translator then
+	error("exchange_shop requires at least Minetest 5.0.0-dev.")
+end
+
 exchange_shop = {}
 exchange_shop.storage_size = 5 * 4
 exchange_shop.shopname = "exchange_shop:shop"

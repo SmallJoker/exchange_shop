@@ -1,3 +1,5 @@
+local S = exchange_shop.S
+
 function exchange_shop.has_access(meta, player_name)
 	local owner = meta:get_string("owner")
 	if player_name == owner or owner == "" then
@@ -67,8 +69,8 @@ end
 function exchange_shop.exchange_action(player_inv, shop_inv)
 	if not shop_inv:is_empty("cust_ej")
 			or not shop_inv:is_empty("custm_ej") then
-		return "One or multiple ejection fields are filled. "..
-			"Please empty them or contact the shop owner."
+		return S("One or multiple ejection fields are filled.") .. " " ..
+			S("Please empty them or contact the shop owner.")
 	end
 	local owner_wants = shop_inv:get_list("cust_ow")
 	local owner_gives = shop_inv:get_list("cust_og")
@@ -81,8 +83,8 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 				break
 			end
 			if i1 ~= i2 and name1 == item2:get_name() then
-				return "The field 'Owner needs' can not contain multiple "..
-					"times the same items. Please contact the shop owner."
+				return S("The field '@1' can not contain multiple times the same items.", S("You need")) .. " " ..
+					S("Please contact the shop owner.")
 			end
 		end
 	end
@@ -95,8 +97,8 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 				break
 			end
 			if i1 ~= i2 and name1 == item2:get_name() then
-				return "The field 'Owner gives' can not contain multiple "..
-					"times the same items. Please contact the shop owner."
+				return S("The field '@1' can not contain multiple times the same items.", S("You give")) .. " " ..
+					S("Please contact the shop owner.")
 			end
 		end
 	end
@@ -104,8 +106,8 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 	-- Check for space in the shop
 	for i, item in pairs(owner_wants) do
 		if not shop_inv:room_for_item("custm", item) then
-			return "The stock in this shop is full. "..
-				"Please contact the shop owner."
+			return S("The stock in this shop is full.") .. " " ..
+				S("Please contact the shop owner.")
 		end
 	end
 
@@ -114,21 +116,21 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 	-- Check availability of the shop's items
 	for i, item in pairs(owner_gives) do
 		if not list_contains_item(shop_inv, "stock", item) then
-			return "This shop is sold out."
+			return S("This shop is sold out.")
 		end
 	end
 
 	-- Check for space in the player's inventory
 	for i, item in pairs(owner_gives) do
 		if not player_inv:room_for_item("main", item) then
-			return "You do not have enough space in your inventory."
+			return S("You do not have enough space in your inventory.")
 		end
 	end
 
 	-- Check availability of the player's items
 	for i, item in pairs(owner_wants) do
 		if not list_contains_item(player_inv, "main", item) then
-			return "You do not have the required items."
+			return S("You do not have the required items.")
 		end
 	end
 
@@ -157,6 +159,6 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 		end
 	end
 	if not fully_exchanged then
-		return "Warning! Stacks are overflowing somewhere!", true
+		return S("Warning! Stacks are overflowing somewhere!"), true
 	end
 end

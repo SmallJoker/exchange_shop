@@ -6,6 +6,12 @@ local modpath = minetest.get_modpath("exchange_shop")
 local has_currency = minetest.get_modpath("currency")
 local has_bitchange = minetest.get_modpath("bitchange")
 
+-- Internationalisaton
+exchange_shop.S = minetest.get_translator("exchange_shop")
+exchange_shop.FS = function(...)
+	return minetest.formspec_escape(exchange_shop.S(...))
+end
+
 -- Currency migrate options
 exchange_shop.migrate = {
 	use_lbm = false,

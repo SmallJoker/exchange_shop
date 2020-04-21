@@ -5,7 +5,8 @@ This code is based on the idea of Dan Duncombe's exchange shop
 	https://web.archive.org/web/20160403113102/https://forum.minetest.net/viewtopic.php?id=7002
 ]]
 
-
+local S = exchange_shop.S
+local FS = exchange_shop.FS
 local shop_positions = {}
 
 local function get_exchange_shop_formspec(mode, pos, meta)
@@ -22,10 +23,10 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		-- customer
 		local formspec = (
 			(overflow and "size[8,9]" or "size[8,8]")..
-			"label[1,0.4;You give:]"..
+			"label[1,0.4;" .. FS("You give:") .. "]"..
 			"list["..name..";cust_ow;1,1;2,2;]"..
-			"button[3,2.4;2,1;exchange;Exchange]"..
-			"label[5,0.4;You get:]"..
+			"button[3,2.4;2,1;exchange;" .. FS("Exchange") .. "]"..
+			"label[5,0.4;" .. FS("You get:") .. "]"..
 			"list["..name..";cust_og;5,1;2,2;]"
 		)
 		-- Insert fallback slots
@@ -51,17 +52,17 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		-- owner
 		local formspec = (
 			"size[10,10]"..
-			"label[0,0.1;Title:]"..
+			"label[0,0.1;" .. FS("Title:") .. "]"..
 			"field[1.2,0.5;3,0.5;title;;"..title.."]"..
 			"field_close_on_enter[title;false]"..
-			"button[3.9,0.2;1,0.5;set_title;Set]"..
+			"button[3.9,0.2;1,0.5;set_title;" .. FS("Set") .. "]"..
 			"container[0,2]"..
-			"label[0,-0.6;You need:]"..
+			"label[0,-0.6;" .. FS("You need") .. FS(":") .. "]"..
 			"list["..name..";cust_ow;0,0;2,2;]"..
-			"label[2.5,-0.6;You give:]"..
+			"label[2.5,-0.6;" .. FS("You give") .. FS(":") .. "]"..
 			"list["..name..";cust_og;2.5,0;2,2;]"..
 			"container_end[]"..
-			"label[5,0.1;Current stock:]"
+			"label[5,0.1;" .. FS("Current stock:") .. "]"
 		)
 
 		if overflow then
@@ -74,17 +75,17 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 
 		if mode == "owner_custm" then
 			formspec = (formspec..
-				"button[7.5,0.2;2.5,0.5;view_stock;Income]"..
+				"button[7.5,0.2;2.5,0.5;view_stock;" .. FS("Income") .. "]"..
 				"list["..name..";custm;5,1;5,4;]"..
 				listring("custm"))
 		else
 			formspec = (formspec..
-				"button[7.5,0.2;2.5,0.5;view_custm;Outgoing]"..
+				"button[7.5,0.2;2.5,0.5;view_custm;" .. FS("Outgoing") .. "]"..
 				"list["..name..";stock;5,1;5,4;]"..
 				listring("stock"))
 		end
 		return (formspec..
-			"label[1,5.4;Use (E) + (Right click) for customer interface]"..
+			"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]"..
 			"list[current_player;main;1,6;8,4;]")
 	end
 	return ""
@@ -118,10 +119,9 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 		if title ~= fields.title then
 			if fields.title ~= "" then
 				meta:set_string("infotext", "'" .. fields.title
-					.. "' (owned by " .. shop_owner .. ")")
+					.. "' (" .. S("owned by @1", shop_owner) .. ")")
 			else
-				meta:set_string("infotext", "Exchange shop (owned by "
-					.. shop_owner ..")")
+				meta:set_string("infotext", S("Exchange shop (owned by @1", shop_owner) .. ")" )
 			end
 			meta:set_string("title", minetest.formspec_escape(fields.title))
 		end
@@ -139,7 +139,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 		-- Throw error message
 		if err_msg then
 			minetest.chat_send_player(player_name, minetest.colorize("#F33",
-				"Exchange shop: " .. err_msg))
+				S("Exchange shop:") .. " " .. err_msg))
 		end
 		if resend then
 			minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
@@ -158,7 +158,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 end)
 
 minetest.register_node(exchange_shop.shopname, {
-	description = "Exchange Shop",
+	description = S"Exchange Shop",
 	tiles = {
 		"shop_top.png", "shop_top.png", 
 		"shop_side.png","shop_side.png",
@@ -171,12 +171,11 @@ minetest.register_node(exchange_shop.shopname, {
 		local meta = minetest.get_meta(pos)
 		local owner = placer:get_player_name()
 		meta:set_string("owner", owner)
-		meta:set_string("infotext", "Exchange shop (owned by "
-			.. owner .. ")")
+		meta:set_string("infotext", S("Exchange shop (owned by @1", owner) .. ")")
 	end,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Exchange shop (constructing)")
+		meta:set_string("infotext", S("Exchange shop (constructing)"))
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		inv:set_size("stock", exchange_shop.storage_size) -- needed stock for exchanges
@@ -195,7 +194,7 @@ minetest.register_node(exchange_shop.shopname, {
 			return true
 		end
 		minetest.chat_send_player(player:get_player_name(),
-			"Cannot dig exchange shop: one or multiple stocks are in use.")
+			S("Cannot dig exchange shop: one or multiple stocks are in use."))
 		return false
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack)
@@ -221,7 +220,7 @@ minetest.register_node(exchange_shop.shopname, {
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if listname == "custm" then
 			minetest.chat_send_player(player:get_player_name(),
-				"Exchange shop: Insert your trade goods into 'Outgoing'.")
+				S("Exchange shop: Insert your trade goods into 'Outgoing'."))
 			return 0
 		end
 		local meta = minetest.get_meta(pos)

@@ -17,17 +17,27 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		return "listring[".. name ..";" .. src .. "]" ..
 			"listring[current_player;main]"
 	end
+	local function make_slots(x, y, list, label)
+		local arrow = "exchange_shop_arrow.png"
+		if list == "cust_ow" then
+			arrow = arrow .. "\\^\\[transformFY"
+		end
+		return table.concat({
+			("label[%f,%f;%s]"):format(x, y - 0.6, label),
+			("image[%f,%f;0.6,0.6;shop_front.png]"):format(x + 0.15, y + 0.3),
+			("image[%f,%f;0.6,0.6;%s]"):format(x + 0.15, y + 0.0, arrow),
+			("list["..name..";%s;%f,%f;2,2;]"):format(list, x, y)
+		})
+	end
 	if mode == "customer" then
 		local overflow = not meta:get_inventory():is_empty("cust_ej")
 
 		-- customer
 		local formspec = (
 			(overflow and "size[8,9]" or "size[8,8]")..
-			"label[1,0.4;" .. FS("You give:") .. "]"..
-			"list["..name..";cust_ow;1,1;2,2;]"..
-			"button[3,2.4;2,1;exchange;" .. FS("Exchange") .. "]"..
-			"label[5,0.4;" .. FS("You get:") .. "]"..
-			"list["..name..";cust_og;5,1;2,2;]"
+			make_slots(1, 1, "cust_ow", FS("You give:")) ..
+			"button[3,2.5;2,1;exchange;" .. FS("Exchange") .. "]"..
+			make_slots(5, 1, "cust_og", FS("You get:"))
 		)
 		-- Insert fallback slots
 		local inv_pos = 4
@@ -56,12 +66,8 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 			"field[1.2,0.5;3,0.5;title;;"..title.."]"..
 			"field_close_on_enter[title;false]"..
 			"button[3.9,0.2;1,0.5;set_title;" .. FS("Set") .. "]"..
-			"container[0,2]"..
-			"label[0,-0.6;" .. FS("You need") .. FS(":") .. "]"..
-			"list["..name..";cust_ow;0,0;2,2;]"..
-			"label[2.5,-0.6;" .. FS("You give") .. FS(":") .. "]"..
-			"list["..name..";cust_og;2.5,0;2,2;]"..
-			"container_end[]"..
+			make_slots(  0, 2, "cust_ow", FS("You need") .. FS(":")) ..
+			make_slots(2.5, 2, "cust_og", FS("You give") .. FS(":")) ..
 			"label[5,0.1;" .. FS("Current stock:") .. "]"
 		)
 
@@ -73,11 +79,13 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 			)
 		end
 
+		local arrow = "exchange_shop_arrow.png"
 		if mode == "owner_custm" then
 			formspec = (formspec..
 				"button[7.5,0.2;2.5,0.5;view_stock;" .. FS("Income") .. "]"..
 				"list["..name..";custm;5,1;5,4;]"..
 				listring("custm"))
+			arrow = arrow .. "\\^\\[transformFY"
 		else
 			formspec = (formspec..
 				"button[7.5,0.2;2.5,0.5;view_custm;" .. FS("Outgoing") .. "]"..
@@ -86,6 +94,7 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		end
 		return (formspec..
 			"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]"..
+			"image[8.2,5.2;0.6,0.6;" .. arrow .. "]" ..
 			"list[current_player;main;1,6;8,4;]")
 	end
 	return ""

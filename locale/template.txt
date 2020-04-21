@@ -1,0 +1,35 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Title:=
+Set=
+You give:=
+You get:=
+Exchange=
+You need=
+You give=
+:=
+Current stock:=
+Income=
+Outgoing=
+Use (E) + (Right click) for customer interface=
+owned by @1=
+Exchange shop (owned by @1=
+Exchange shop:=
+Exchange Shop=
+Exchange shop (constructing)=
+Cannot dig exchange shop: one or multiple stocks are in use.=
+Exchange shop: Insert your trade goods into 'Outgoing'.=
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=
+Please empty them or contact the shop owner.=
+The field '@1' can not contain multiple times the same items.=
+The field '@1' can not contain multiple times the same items.=
+Please contact the shop owner.=
+The stock in this shop is full.=
+Please contact the shop owner.=
+This shop is sold out.=
+You do not have enough space in your inventory.=
+You do not have the required items.=
+Warning! Stacks are overflowing somewhere!=

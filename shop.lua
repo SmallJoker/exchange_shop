@@ -18,7 +18,7 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 			"listring[current_player;main]"
 	end
 	local function make_slots(x, y, list, label)
-		local arrow = "exchange_shop_arrow.png"
+		local arrow = "default_arrow_bg.png"
 		if list == "cust_ow" then
 			arrow = arrow .. "\\^\\[transformFY"
 		end
@@ -79,7 +79,7 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 			)
 		end
 
-		local arrow = "exchange_shop_arrow.png"
+		local arrow = "default_arrow_bg.png"
 		if mode == "owner_custm" then
 			formspec = (formspec..
 				"button[7.5,0.2;2.5,0.5;view_stock;" .. FS("Income") .. "]"..
@@ -169,7 +169,7 @@ end)
 minetest.register_node(exchange_shop.shopname, {
 	description = S"Exchange Shop",
 	tiles = {
-		"shop_top.png", "shop_top.png", 
+		"shop_top.png", "shop_top.png",
 		"shop_side.png","shop_side.png",
 		"shop_side.png", "shop_front.png"
 	},
@@ -261,16 +261,3 @@ minetest.register_craft({
 minetest.register_on_leaveplayer(function(player)
 	shop_positions[player:get_player_name()] = nil
 end)
-
-if minetest.get_modpath("wrench") and wrench then
-	local STRING = wrench.META_TYPE_STRING
-	wrench:register_node("exchange_shop:shop", {
-		lists = {"stock", "custm", "custm_ej", "cust_ow", "cust_og", "cust_ej"},
-		metas = {
-			owner = STRING,
-			infotext = STRING,
-			title = STRING,
-		},
-		owned = true
-	})
-end

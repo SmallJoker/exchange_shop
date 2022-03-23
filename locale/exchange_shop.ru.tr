@@ -1,0 +1,17 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Обменный Магазин
+Exchange Shop:=Обменный Магазин:
+Exchange Shop: "@1"=Обменный Магазин: "@1"
+Owned by @1=Владелец: @1
+
+Current stock:=Склад:
+You need:=Вам нужно:
+You give:=Вы отдадите:
+Exchange=Обменять
+You get:=Вы получите:
+Income=Полученное
+Outgoing=Продаваемое
+Title:=Название:
+Set=Устан.

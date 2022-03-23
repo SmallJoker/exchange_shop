@@ -66,7 +66,7 @@ function exchange_shop.list_remove_item(inv, listname, stack)
 	return removed_stack
 end
 
-function exchange_shop.exchange_action(player_inv, shop_inv)
+function exchange_shop.exchange_action(player_inv, shop_inv, pos)
 	if not shop_inv:is_empty("cust_ej")
 			or not shop_inv:is_empty("custm_ej") then
 		return S("One or multiple ejection fields are filled.") .. " " ..
@@ -153,9 +153,10 @@ function exchange_shop.exchange_action(player_inv, shop_inv)
 		if player_inv:room_for_item("main", stack) then
 			player_inv:add_item("main", stack)
 		else
+			minetest.item_drop(stack, nil, pos)
 			-- Move to ejection field
-			shop_inv:add_item("cust_ej", stack)
-			fully_exchanged = false
+		--	shop_inv:add_item("cust_ej", stack)
+		--	fully_exchanged = false
 		end
 	end
 	if not fully_exchanged then

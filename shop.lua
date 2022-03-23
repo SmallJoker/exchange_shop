@@ -10,23 +10,26 @@ local FS = exchange_shop.FS
 local shop_positions = {}
 
 local function get_exchange_shop_formspec(mode, pos, meta)
-	local name = "nodemeta:"..pos.x..","..pos.y..","..pos.z
+	local fs_prepend = default.gui_bg .. -- default.listcolors ..
+		"background[0,0;0,0;formspec_background_color.png^formspec_backround.png;true]"
+
+	local name = "nodemeta:" .. pos.x .. "," .. pos.y .. "," .. pos.z
 	meta = meta or minetest.get_meta(pos)
 
 	local function listring(src)
-		return "listring[".. name ..";" .. src .. "]" ..
+		return "listring[" .. name .. ";" .. src .. "]" ..
 			"listring[current_player;main]"
 	end
 	local function make_slots(x, y, list, label)
-		local arrow = "default_arrow_bg.png"
-		if list == "cust_ow" then
-			arrow = arrow .. "\\^\\[transformFY"
-		end
+	--	local arrow = "default_arrow_bg.png"
+	--	if list == "cust_ow" then
+	--		arrow = arrow .. "\\^\\[transformFY"
+	--	end
 		return table.concat({
-			("label[%f,%f;%s]"):format(x, y - 0.6, label),
-			("image[%f,%f;0.6,0.6;shop_front.png]"):format(x + 0.15, y + 0.3),
-			("image[%f,%f;0.6,0.6;%s]"):format(x + 0.15, y + 0.0, arrow),
-			("list["..name..";%s;%f,%f;2,2;]"):format(list, x, y)
+			("label[%f,%f;%s]"):format(x, y - 0.5, label),
+		--	("image[%f,%f;0.6,0.6;shop_front.png]"):format(x + 0.15, y + 0.3),
+		--	("image[%f,%f;0.6,0.6;%s]"):format(x + 0.15, y + 0.0, arrow),
+			("list[" .. name .. ";%s;%f,%f;2,2;]"):format(list, x, y)
 		})
 	end
 	if mode == "customer" then
@@ -34,68 +37,74 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 
 		-- customer
 		local formspec = (
-			(overflow and "size[8,9]" or "size[8,8]")..
-			make_slots(1, 1, "cust_ow", FS("You give:")) ..
-			"button[3,2.5;2,1;exchange;" .. FS("Exchange") .. "]"..
-			make_slots(5, 1, "cust_og", FS("You get:"))
+			"size[9,8.75]" ..
+			"item_image[0,-0.1;1,1;".. exchange_shop.shopname .. "]" ..
+			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
+			fs_prepend ..
+			default.gui_close_btn() ..
+			make_slots(1, 1.1, "cust_ow", FS("You give:")) ..
+			"button[3,3.2;3,1;exchange;" .. FS("Exchange") .. "]" ..
+			make_slots(6, 1.1, "cust_og", FS("You get:"))
 		)
 		-- Insert fallback slots
-		local inv_pos = 4
+		local inv_pos = 4.5
 		if overflow then
 			formspec = (formspec ..
-				"label[0.7,3.5;Ejected items:]"..
-				"label[0.7,3.8;(Remove me!)]"..
-				"list["..name..";cust_ej;3,3.5;4,1;]"
+				"label[0.7,3.5;Ejected items:]" ..
+				"label[0.7,3.8;(Remove me!)]" ..
+				"list[" .. name .. ";cust_ej;3,3.5;4,1;]"
 			)
 			inv_pos = 5
 		end
 		return (formspec ..
-			"list[current_player;main;0," .. inv_pos .. ";8,4;]"..
+			"list[current_player;main;0," .. inv_pos .. ";9,4;]" ..
 			(overflow and listring("cust_ej") or "")
 		)
 	end
 	if mode == "owner_custm"
 			or mode == "owner_stock" then
 		local overflow = not meta:get_inventory():is_empty("custm_ej")
-		local title = meta:get_string("title")
+	--	local title = meta:get_string("title")
 
 		-- owner
 		local formspec = (
-			"size[10,10]"..
-			"label[0,0.1;" .. FS("Title:") .. "]"..
-			"field[1.2,0.5;3,0.5;title;;"..title.."]"..
-			"field_close_on_enter[title;false]"..
-			"button[3.9,0.2;1,0.5;set_title;" .. FS("Set") .. "]"..
-			make_slots(  0, 2, "cust_ow", FS("You need") .. FS(":")) ..
-			make_slots(2.5, 2, "cust_og", FS("You give") .. FS(":")) ..
-			"label[5,0.1;" .. FS("Current stock:") .. "]"
+			"size[10,10]" .. fs_prepend ..
+			"item_image[0,-0.1;1,1;".. exchange_shop.shopname .. "]" ..
+			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
+			default.gui_close_btn("9.3,-0.1") ..
+		--	"field[0.3,0.65;3,0.5;title;" .. FS("Title:") .. ";" .. title .. "]" ..
+		--	"field_close_on_enter[title;false]" ..
+		--	"button[2.8,0.3;1,0.61;set_title;" .. FS("Set") .. "]" ..
+			make_slots(0.1, 2, "cust_ow", FS("You need:")) ..
+			make_slots(2.6, 2, "cust_og", FS("You give:")) ..
+			"label[5,0.4;" .. FS("Current stock:") .. "]"
 		)
 
 		if overflow then
-			formspec = (formspec..
-				"list["..name..";custm_ej;0.2,4;4,1;]"..
-				"label[0.2,4.9;Ejected items: (Remove me!)]"..
+			formspec = (formspec ..
+				"list[" .. name .. ";custm_ej;0.2,4;4,1;]" ..
+				"label[0.2,4.9;Ejected items: (Remove me!)]" ..
 				listring("custm_ej")
 			)
 		end
 
 		local arrow = "default_arrow_bg.png"
 		if mode == "owner_custm" then
-			formspec = (formspec..
-				"button[7.5,0.2;2.5,0.5;view_stock;" .. FS("Income") .. "]"..
-				"list["..name..";custm;5,1;5,4;]"..
+			formspec = (formspec ..
+				"button[6,5.25;2,0.5;view_stock;" .. FS("Income") .. "]" ..
+				"list[" .. name .. ";custm;5,1;5,4;]" ..
 				listring("custm"))
 			arrow = arrow .. "\\^\\[transformFY"
 		else
-			formspec = (formspec..
-				"button[7.5,0.2;2.5,0.5;view_custm;" .. FS("Outgoing") .. "]"..
-				"list["..name..";stock;5,1;5,4;]"..
+			formspec = (formspec ..
+				"button[6,5.25;2,0.5;view_custm;" .. FS("Outgoing") .. "]" ..
+				"list[" .. name .. ";stock;5,1;5,4;]" ..
 				listring("stock"))
 		end
-		return (formspec..
-			"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]"..
+		return (formspec ..
+			"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]" ..
 			"image[8.2,5.2;0.6,0.6;" .. arrow .. "]" ..
-			"list[current_player;main;1,6;8,4;]")
+			"list[current_player;main;0.5,6;9,4;]")
 	end
 	return ""
 end
@@ -113,7 +122,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 	end
 
 	if (fields.quit and fields.quit ~= "") or
-			minetest.get_node(pos).name ~= "exchange_shop:shop" then
+			minetest.get_node(pos).name ~= exchange_shop.shopname then
 		shop_positions[player_name] = nil
 		return
 	end
@@ -122,17 +131,15 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 	local title = meta:get_string("title")
 	local shop_owner = meta:get_string("owner")
 
-	if fields.title and exchange_shop.has_access(meta, player_name) then
+	local ftitle = fields.title
+	if ftitle and exchange_shop.has_access(meta, player_name) then
 		-- Limit title length
-		fields.title = fields.title:sub(1, 80)
-		if title ~= fields.title then
-			if fields.title ~= "" then
-				meta:set_string("infotext", "'" .. fields.title
-					.. "' (" .. S("owned by @1", shop_owner) .. ")")
-			else
-				meta:set_string("infotext", S("Exchange shop (owned by @1", shop_owner) .. ")" )
-			end
-			meta:set_string("title", minetest.formspec_escape(fields.title))
+		ftitle = ftitle:sub(1, 80)
+		if title ~= ftitle then
+			local title_text = (ftitle and ftitle ~= "") and
+				S("Exchange Shop: \"@1\"", ftitle) or S("Exchange Shop")
+			meta:set_string("infotext", title_text .. "\n" .. S("Owned by @1", shop_owner))
+			meta:set_string("title", minetest.formspec_escape(ftitle))
 		end
 	end
 
@@ -144,11 +151,11 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			return
 		end
 
-		local err_msg, resend = exchange_shop.exchange_action(player_inv, shop_inv)
+		local err_msg, resend = exchange_shop.exchange_action(player_inv, shop_inv, pos)
 		-- Throw error message
 		if err_msg then
 			minetest.chat_send_player(player_name, minetest.colorize("#F33",
-				S("Exchange shop:") .. " " .. err_msg))
+				S("Exchange Shop:") .. " " .. err_msg))
 		end
 		if resend then
 			minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
@@ -167,7 +174,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 end)
 
 minetest.register_node(exchange_shop.shopname, {
-	description = S"Exchange Shop",
+	description = S("Exchange Shop"),
 	tiles = {
 		"shop_top.png", "shop_top.png",
 		"shop_side.png","shop_side.png",
@@ -180,7 +187,7 @@ minetest.register_node(exchange_shop.shopname, {
 		local meta = minetest.get_meta(pos)
 		local owner = placer:get_player_name()
 		meta:set_string("owner", owner)
-		meta:set_string("infotext", S("Exchange shop (owned by @1", owner) .. ")")
+		meta:set_string("infotext", S("Exchange Shop") .. "\n" .. S("Owned by @1", owner))
 	end,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
@@ -206,7 +213,7 @@ minetest.register_node(exchange_shop.shopname, {
 			S("Cannot dig exchange shop: one or multiple stocks are in use."))
 		return false
 	end,
-	on_rightclick = function(pos, node, clicker, itemstack)
+	on_rightclick = function(pos, _, clicker)
 		local meta = minetest.get_meta(pos)
 		local player_name = clicker:get_player_name()
 
@@ -219,14 +226,14 @@ minetest.register_node(exchange_shop.shopname, {
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
 			get_exchange_shop_formspec(mode, pos, meta))
 	end,
-	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
+	allow_metadata_inventory_move = function(pos, _, _, _, _, count, player)
 		local meta = minetest.get_meta(pos)
 		if exchange_shop.has_access(meta, player:get_player_name()) then
 			return count
 		end
 		return 0
 	end,
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_put = function(pos, listname, _, stack, player)
 		if listname == "custm" then
 			minetest.chat_send_player(player:get_player_name(),
 				S("Exchange shop: Insert your trade goods into 'Outgoing'."))
@@ -240,7 +247,7 @@ minetest.register_node(exchange_shop.shopname, {
 		end
 		return 0
 	end,
-	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_take = function(pos, listname, _, stack, player)
 		local meta = minetest.get_meta(pos)
 		if exchange_shop.has_access(meta, player:get_player_name())
 				or listname == "cust_ej" then
@@ -251,10 +258,11 @@ minetest.register_node(exchange_shop.shopname, {
 })
 
 minetest.register_craft({
-	output = "exchange_shop:shop",
+	output = exchange_shop.shopname,
 	recipe = {
-		{"default:sign_wall"},
-		{"default:chest_locked"},
+		{"default:ruby", "default:ruby", "default:ruby"},
+		{"default:ruby", "default:chest", "default:ruby"},
+		{"default:ruby", "default:ruby", "default:ruby"}
 	}
 })
 

@@ -3,8 +3,7 @@ exchange_shop.storage_size = 5 * 4
 exchange_shop.shopname = "exchange_shop:shop"
 
 -- Internationalisaton
---exchange_shop.S = minetest.get_translator("exchange_shop")
-exchange_shop.S = intllib.make_gettext_pair()
+exchange_shop.S = minetest.get_translator_auto("ru")
 exchange_shop.FS = function(...)
 	return minetest.formspec_escape(exchange_shop.S(...))
 end

@@ -34,21 +34,26 @@ end
 
 -- Tool wear aware replacement for remove_item.
 function exchange_shop.list_remove_item(inv, listname, stack)
-	local wanted = stack:get_count()
-	if wanted == 0 then
+	local wanted_count = stack:get_count()
+	if wanted_count == 0 then
 		return stack
 	end
 
 	local list = inv:get_list(listname)
 	local name = stack:get_name()
 	local wear = stack:get_wear()
-	local remaining = wanted
+
+	-- Information about the removed stack
+	-- this includes the metadata of the last taken stack
+	local taken_stack = ItemStack()
+	local remaining = wanted_count
 	local removed_wear = 0
 
 	for index, list_stack in pairs(list) do
 		if list_stack:get_name() == name and
-		   list_stack:get_wear() <= wear then
-			local taken_stack = list_stack:take_item(remaining)
+				list_stack:get_wear() <= wear then
+			-- Only sell better tools (less worn out)
+			taken_stack = list_stack:take_item(remaining)
 			inv:set_stack(listname, index, list_stack)
 
 			removed_wear = math.max(removed_wear, taken_stack:get_wear())
@@ -59,11 +64,11 @@ function exchange_shop.list_remove_item(inv, listname, stack)
 		end
 	end
 
-	-- Todo: Also remove kebab
-	local removed_stack = ItemStack(name)
-	removed_stack:set_count(wanted - remaining)
-	removed_stack:set_wear(removed_wear)
-	return removed_stack
+	-- For oversized stacks, ItemStack:add_item returns a leftover
+	-- handle the stack count manually to avoid this issue
+	taken_stack:set_count(wanted_count - remaining)
+	taken_stack:set_wear(removed_wear)
+	return taken_stack
 end
 
 function exchange_shop.exchange_action(player_inv, shop_inv)

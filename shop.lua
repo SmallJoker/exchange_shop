@@ -9,9 +9,14 @@ local S = exchange_shop.S
 local FS = exchange_shop.FS
 local shop_positions = {}
 
-local function get_exchange_shop_formspec(mode, pos, meta)
-	local fs_prepend = default.gui_bg .. -- default.listcolors ..
+local function get_exchange_shop_formspec(mode, pos, meta, player)
+	local new_inv = not player_api.compat_mode(player)
+
+	local fs_prepend = default.gui_bg .. default.listcolors
+	if not new_inv then
+		fs_prepend = fs_prepend ..
 		"background[0,0;0,0;formspec_background_color.png^formspec_backround.png;true]"
+	end
 
 	local name = "nodemeta:" .. pos.x .. "," .. pos.y .. "," .. pos.z
 	meta = meta or minetest.get_meta(pos)
@@ -20,20 +25,36 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		return "listring[" .. name .. ";" .. src .. "]" ..
 			"listring[current_player;main]"
 	end
-	local function make_slots(x, y, list, label)
+
+	local function make_slots(x, y, w, h, list, label)
 	--	local arrow = "default_arrow_bg.png"
 	--	if list == "cust_ow" then
 	--		arrow = arrow .. "\\^\\[transformFY"
 	--	end
+
+		local slots_image = ""
+		for _x = 1, w do
+		for _y = 1, h do
+			slots_image = slots_image ..
+				"item_image[" .. _x + x - 1 .. "," .. _y + y - 1 .. ";1,1;default:cell]"
+		end
+		end
+
 		return table.concat({
 			("label[%f,%f;%s]"):format(x, y - 0.5, label),
 		--	("image[%f,%f;0.6,0.6;shop_front.png]"):format(x + 0.15, y + 0.3),
 		--	("image[%f,%f;0.6,0.6;%s]"):format(x + 0.15, y + 0.0, arrow),
-			("list[" .. name .. ";%s;%f,%f;2,2;]"):format(list, x, y)
+		--	("item_image[%f,%f;1,1;default:cell]"):format(x, y),
+		--	("item_image[%f,%f;1,1;default:cell]"):format(x + 1, y),
+		--	("item_image[%f,%f;1,1;default:cell]"):format(x, y + 1),
+		--	("item_image[%f,%f;1,1;default:cell]"):format(x + 1, y + 1),
+			(slots_image),
+			("list[" .. name .. ";%s;%f,%f;%u,%u;]"):format(list, x, y, w, h)
 		})
 	end
+
 	if mode == "customer" then
-		local overflow = not meta:get_inventory():is_empty("cust_ej")
+		local overflow = false -- not meta:get_inventory():is_empty("cust_ej")
 
 		-- customer
 		local formspec = (
@@ -42,27 +63,41 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
 			fs_prepend ..
 			default.gui_close_btn() ..
-			make_slots(1, 1.1, "cust_ow", FS("You give:")) ..
+			make_slots(1, 1.1, 2, 2, "cust_ow", FS("You give:")) ..
 			"button[3,3.2;3,1;exchange;" .. FS("Exchange") .. "]" ..
-			make_slots(6, 1.1, "cust_og", FS("You get:"))
+			make_slots(6, 1.1, 2, 2, "cust_og", FS("You get:"))
 		)
 		-- Insert fallback slots
-		local inv_pos = 4.5
-		if overflow then
+		local inv_pos = 4.75
+		--[[if overflow then
 			formspec = (formspec ..
-				"label[0.7,3.5;Ejected items:]" ..
-				"label[0.7,3.8;(Remove me!)]" ..
-				"list[" .. name .. ";cust_ej;3,3.5;4,1;]"
+				"label[0.7,4;" .. FS("Ejected items:") .. "\n" .. FS("Remove me!") .. "]" ..
+				"item_image[3,4;1,1;default:cell]" ..
+				"item_image[4,4;1,1;default:cell]" ..
+				"item_image[5,4;1,1;default:cell]" ..
+				"item_image[6,4;1,1;default:cell]" ..
+				"list[" .. name .. ";cust_ej;3,4;4,1;]"
 			)
 			inv_pos = 5
+		end]]
+
+		local main_image = ""
+		for x = 1, 9 do
+		for y = 1, 4 do
+			main_image = main_image ..
+				"item_image[" .. x - 1 .. "," .. y + inv_pos - 1 .. ";1,1;default:cell]"
 		end
-		return (formspec ..
+		end
+
+		formspec = formspec ..
+			main_image ..
 			"list[current_player;main;0," .. inv_pos .. ";9,4;]" ..
 			(overflow and listring("cust_ej") or "")
-		)
+
+		return formspec
 	end
-	if mode == "owner_custm"
-			or mode == "owner_stock" then
+
+	if mode == "owner_custm" or mode == "owner_stock" then
 		local overflow = not meta:get_inventory():is_empty("custm_ej")
 	--	local title = meta:get_string("title")
 
@@ -75,36 +110,62 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		--	"field[0.3,0.65;3,0.5;title;" .. FS("Title:") .. ";" .. title .. "]" ..
 		--	"field_close_on_enter[title;false]" ..
 		--	"button[2.8,0.3;1,0.61;set_title;" .. FS("Set") .. "]" ..
-			make_slots(0.1, 2, "cust_ow", FS("You need:")) ..
-			make_slots(2.6, 2, "cust_og", FS("You give:")) ..
+			make_slots(0.1, 2, 2, 2, "cust_ow", FS("You need:")) ..
+			make_slots(2.6, 2, 2, 2, "cust_og", FS("You give:")) ..
 			"label[5,0.4;" .. FS("Current stock:") .. "]"
 		)
 
 		if overflow then
 			formspec = (formspec ..
-				"list[" .. name .. ";custm_ej;0.2,4;4,1;]" ..
-				"label[0.2,4.9;Ejected items: (Remove me!)]" ..
+				"item_image[0.1,4.4;1,1;default:cell]" ..
+				"item_image[1.1,4.4;1,1;default:cell]" ..
+				"item_image[2.1,4.4;1,1;default:cell]" ..
+				"item_image[3.1,4.4;1,1;default:cell]" ..
+				"list[" .. name .. ";custm_ej;0.1,4.4;4,1;]" ..
+				"label[0.1,5.3;" .. FS("Ejected items:") .. " " .. FS("Remove me!") .. "]" ..
 				listring("custm_ej")
 			)
+		end
+
+		local stock_image = ""
+		for x = 1, 5 do
+		for y = 1, 4 do
+			stock_image = stock_image ..
+				"item_image[" .. x + 4 .. "," .. y .. ";1,1;default:cell]"
+		end
 		end
 
 		local arrow = "default_arrow_bg.png"
 		if mode == "owner_custm" then
 			formspec = (formspec ..
-				"button[6,5.25;2,0.5;view_stock;" .. FS("Income") .. "]" ..
+				"button[6.25,5.25;2.4,0.5;view_stock;" .. FS("Income") .. "]" ..
+				stock_image ..
 				"list[" .. name .. ";custm;5,1;5,4;]" ..
 				listring("custm"))
 			arrow = arrow .. "\\^\\[transformFY"
 		else
 			formspec = (formspec ..
-				"button[6,5.25;2,0.5;view_custm;" .. FS("Outgoing") .. "]" ..
+				"button[6.25,5.25;2.4,0.5;view_custm;" .. FS("Outgoing") .. "]" ..
+				stock_image ..
 				"list[" .. name .. ";stock;5,1;5,4;]" ..
 				listring("stock"))
 		end
-		return (formspec ..
-			"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]" ..
-			"image[8.2,5.2;0.6,0.6;" .. arrow .. "]" ..
-			"list[current_player;main;0.5,6;9,4;]")
+
+		local main_image = ""
+		for x = 1, 9 do
+		for y = 1, 4 do
+			main_image = main_image ..
+				"item_image[" .. x - 0.5 .. "," .. y + 5 .. ";1,1;default:cell]"
+		end
+		end
+
+		formspec = formspec ..
+		--	"label[1,5.4;" .. FS("Use (E) + (Right click) for customer interface") .. "]" ..
+			main_image ..
+			"image[8.65,5.2;0.6,0.6;" .. arrow .. "]" ..
+			"list[current_player;main;0.5,6;9,4;]"
+
+		return formspec
 	end
 	return ""
 end
@@ -159,7 +220,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 		end
 		if resend then
 			minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-				get_exchange_shop_formspec("customer", pos, meta))
+				get_exchange_shop_formspec("customer", pos, meta, sender))
 		end
 	end
 	if (fields.view_custm or fields.view_stock)
@@ -169,7 +230,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			mode = "owner_custm"
 		end
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, meta))
+			get_exchange_shop_formspec(mode, pos, meta, sender))
 	end
 end)
 
@@ -224,7 +285,7 @@ minetest.register_node(exchange_shop.shopname, {
 		end
 		shop_positions[player_name] = pos
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, meta))
+			get_exchange_shop_formspec(mode, pos, meta, clicker))
 	end,
 	allow_metadata_inventory_move = function(pos, _, _, _, _, count, player)
 		local meta = minetest.get_meta(pos)

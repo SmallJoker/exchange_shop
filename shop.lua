@@ -262,7 +262,7 @@ minetest.register_node(exchange_shop.shopname, {
 		inv:set_size("cust_og", 2*2) -- owner gives
 		inv:set_size("cust_ej", 4) -- ejected items if player has no inventory room
 	end,
-	can_dig = function(pos,player)
+	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		if inv:is_empty("stock") and inv:is_empty("custm")
@@ -270,8 +270,10 @@ minetest.register_node(exchange_shop.shopname, {
 				and inv:is_empty("cust_og") and inv:is_empty("cust_ej") then
 			return true
 		end
-		minetest.chat_send_player(player:get_player_name(),
-			S("Cannot dig exchange shop: one or multiple stocks are in use."))
+		if player then
+			minetest.chat_send_player(player:get_player_name(),
+				S("Cannot dig exchange shop: one or multiple stocks are in use."))
+		end
 		return false
 	end,
 	on_rightclick = function(pos, _, clicker)
@@ -295,13 +297,14 @@ minetest.register_node(exchange_shop.shopname, {
 		return 0
 	end,
 	allow_metadata_inventory_put = function(pos, listname, _, stack, player)
+		local player_name = player:get_player_name()
 		if listname == "custm" then
-			minetest.chat_send_player(player:get_player_name(),
+			minetest.chat_send_player(player_name,
 				S("Exchange shop: Insert your trade goods into 'Outgoing'."))
 			return 0
 		end
 		local meta = minetest.get_meta(pos)
-		if exchange_shop.has_access(meta, player:get_player_name())
+		if exchange_shop.has_access(meta, player_name)
 				and listname ~= "cust_ej"
 				and listname ~= "custm_ej" then
 			return stack:get_count()

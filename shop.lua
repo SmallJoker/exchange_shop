@@ -9,15 +9,7 @@ local S = exchange_shop.S
 local FS = exchange_shop.FS
 local shop_positions = {}
 
-local function get_exchange_shop_formspec(mode, pos, meta, player)
-	local new_inv = not player_api.compat_mode(player)
-
-	local fs_prepend = default.gui_bg .. default.listcolors
-	if not new_inv then
-		fs_prepend = fs_prepend ..
-		"background[0,0;0,0;formspec_background_color.png^formspec_backround.png;true]"
-	end
-
+local function get_exchange_shop_formspec(mode, pos, meta)
 	local name = "nodemeta:" .. pos.x .. "," .. pos.y .. "," .. pos.z
 	meta = meta or minetest.get_meta(pos)
 
@@ -61,7 +53,6 @@ local function get_exchange_shop_formspec(mode, pos, meta, player)
 			"size[9,8.75]" ..
 			"item_image[0,-0.1;1,1;".. exchange_shop.shopname .. "]" ..
 			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
-			fs_prepend ..
 			default.gui_close_btn() ..
 			make_slots(1, 1.1, 2, 2, "cust_ow", FS("You give:")) ..
 			"button[3,3.2;3,1;exchange;" .. FS("Exchange") .. "]" ..
@@ -103,7 +94,7 @@ local function get_exchange_shop_formspec(mode, pos, meta, player)
 
 		-- owner
 		local formspec = (
-			"size[10,10]" .. fs_prepend ..
+			"size[10,10]" ..
 			"item_image[0,-0.1;1,1;".. exchange_shop.shopname .. "]" ..
 			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
 			default.gui_close_btn("9.3,-0.1") ..
@@ -220,7 +211,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 		end
 		if resend then
 			minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-				get_exchange_shop_formspec("customer", pos, meta, sender))
+				get_exchange_shop_formspec("customer", pos, meta))
 		end
 	end
 	if (fields.view_custm or fields.view_stock)
@@ -230,7 +221,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			mode = "owner_custm"
 		end
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, meta, sender))
+			get_exchange_shop_formspec(mode, pos, meta))
 	end
 end)
 
@@ -287,7 +278,7 @@ minetest.register_node(exchange_shop.shopname, {
 		end
 		shop_positions[player_name] = pos
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
-			get_exchange_shop_formspec(mode, pos, meta, clicker))
+			get_exchange_shop_formspec(mode, pos, meta))
 	end,
 	allow_metadata_inventory_move = function(pos, _, _, _, _, count, player)
 		local meta = minetest.get_meta(pos)

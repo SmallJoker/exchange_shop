@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Maiņas veikals
+Exchange Shop:=Maiņas veikals:
+Exchange Shop: "@1"=Maiņas veikals: "@1"
+Owned by @1=pieder @1
+
+Current stock:=Pašreizējais krājums:
+You need:=Jums ir nepieciešams:
+You give:=Jūs sniedzat:
+Exchange=Exchange
+You get:=Jūs saņemat:
+Income=Ienākumi
+Outgoing=izejošais
+
+Use (E) + (Right click) for customer interface=Izmantojiet (E) + (klikšķiniet ar peles labo pogu), lai izveidotu klienta saskarni
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Nevar izrakt maiņas veikalu: tiek izmantots viens vai vairāki krājumi.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Maiņas veikals: Ievietojiet savas tirdzniecības preces sadaļā "Izejošās".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Ir aizpildīts viens vai vairāki izmešanas lauki.
+Please empty them or contact the shop owner.=Lūdzu, iztukšojiet tos vai sazinieties ar veikala īpašnieku.
+The field '@1' can not contain multiple times the same items.=Laukā "@1" nevar būt vairākas reizes vieni un tie paši elementi.
+Please contact the shop owner.=Lūdzu, sazinieties ar veikala īpašnieku.
+The stock in this shop is full.=Krājumi šajā veikalā ir pilni.
+This shop is sold out.=Šis veikals ir izpārdots.
+You do not have enough space in your inventory.=Jūsu inventārā nav pietiekami daudz vietas.
+You do not have the required items.=Jums nav nepieciešamo elementu.
+Warning! Stacks are overflowing somewhere!=Brīdinājums! Kaudzes kaut kur ir pārpildītas!

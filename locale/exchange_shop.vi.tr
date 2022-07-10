@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Cửa hàng trao đổi
+Exchange Shop:=Cửa hàng trao đổi:
+Exchange Shop: "@1"=Cửa hàng trao đổi: "@1"
+Owned by @1=Chủ sở hữu: @1
+
+Current stock:=Thành phần:
+You need:=Bạn cần:
+You give:=Bạn sẽ trao đi:
+Exchange=Trao đổi
+You get:=Bạn sẽ nhận được:
+Income=Nhận
+Outgoing=Đã bán
+
+Use (E) + (Right click) for customer interface=Sử dụng (E) + (nhấp chuột phải) cho giao diện máy khách
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Không thể đào Cửa hàng trao đổi: một hoặc nhiều ô được sử dụng.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Cửa hàng trao đổi: Dán các thương phẩm của bạn vào 'Hộp thư đi'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Một hoặc nhiều trường ngoại lệ được điền.
+Please empty them or contact the shop owner.=Vui lòng làm trống chúng hoặc liên hệ với chủ cửa hàng.
+The field '@1' can not contain multiple times the same items.=Trường '@1' không được chứa các mục giống nhau nhiều lần.
+Please contact the shop owner.=Vui lòng liên hệ với chủ cửa hàng.
+The stock in this shop is full.=Kho trong cửa hàng này đã đầy.
+This shop is sold out.=Cửa hàng này đã được bán hết.
+You do not have enough space in your inventory.=Bạn không có đủ dung lượng trong kho của mình.
+You do not have the required items.=Bạn không có các mục cần thiết.
+Warning! Stacks are overflowing somewhere!=Chú ý! Nơi nào đó tràn kho!

@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Exchange Shop
+Exchange Shop:=Cserebolt:
+Exchange Shop: "@1"=Cserebolt: "@1"
+Owned by @1=Tulajdonos @1
+
+Current stock:=Jelenlegi készlet:
+You need:=Szükséged van rá:
+You give:=Te adsz:
+Exchange=Exchange
+You get:=Megkapod:
+Income=Jövedelem
+Outgoing=Kimenő
+
+Use (E) + (Right click) for customer interface=Használja az (E) + (jobb klikk) gombot az ügyfélfelülethez.
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Nem lehet kiásni a csereüzletet: egy vagy több készlet van használatban.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Cserebolt: Tegye be a kereskedelmi árut a "Kimenő" menüpontba.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Egy vagy több kilövési mező van kitöltve.
+Please empty them or contact the shop owner.=Kérjük, ürítse ki őket, vagy lépjen kapcsolatba a bolt tulajdonosával.
+The field '@1' can not contain multiple times the same items.=A '@1' mező nem tartalmazhat többször ugyanazt az elemet.
+Please contact the shop owner.=Kérjük, vegye fel a kapcsolatot az üzlet tulajdonosával.
+The stock in this shop is full.=A bolt készletei megteltek.
+This shop is sold out.=Ez a bolt már elfogyott.
+You do not have enough space in your inventory.=Nincs elég hely a leltárban.
+You do not have the required items.=Nem rendelkezik a szükséges elemekkel.
+Warning! Stacks are overflowing somewhere!=Figyelem! Valahol túlcsordulnak a halmok!

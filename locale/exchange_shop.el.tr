@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Κατάστημα ανταλλαγής
+Exchange Shop:=Κατάστημα ανταλλαγής:
+Exchange Shop: "@1"=Κατάστημα ανταλλαγής: "@1"
+Owned by @1=Ανήκει στον @1
+
+Current stock:=Τρέχον απόθεμα:
+You need:=Χρειάζεστε:
+You give:=Εσείς δίνετε:
+Exchange=Ανταλλαγή
+You get:=Παίρνετε:
+Income=Εισόδημα
+Outgoing=Εξερχόμενο
+
+Use (E) + (Right click) for customer interface=Χρησιμοποιήστε (E) + (δεξί κλικ) για τη διεπαφή πελάτη
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Δεν μπορεί να σκάψει κατάστημα ανταλλαγής: ένα ή περισσότερα αποθέματα είναι σε χρήση.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Κατάστημα ανταλλαγής: Εισάγετε τα εμπορεύματά σας στο 'Εξερχόμενο'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Συμπληρώνονται ένα ή περισσότερα πεδία εκτίναξης.
+Please empty them or contact the shop owner.=Παρακαλούμε αδειάστε τα ή επικοινωνήστε με τον ιδιοκτήτη του καταστήματος.
+The field '@1' can not contain multiple times the same items.=Το πεδίο '@1' δεν μπορεί να περιέχει πολλές φορές τα ίδια στοιχεία.
+Please contact the shop owner.=Επικοινωνήστε με τον ιδιοκτήτη του καταστήματος.
+The stock in this shop is full.=Το απόθεμα σε αυτό το κατάστημα είναι πλήρες.
+This shop is sold out.=Αυτό το κατάστημα έχει εξαντληθεί.
+You do not have enough space in your inventory.=Δεν έχετε αρκετό χώρο στην απογραφή σας.
+You do not have the required items.=Δεν έχετε τα απαιτούμενα στοιχεία.
+Warning! Stacks are overflowing somewhere!=Προειδοποίηση! Οι στοίβες ξεχειλίζουν κάπου!

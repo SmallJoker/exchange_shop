@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Loja de troca
+Exchange Shop:=Loja de troca:
+Exchange Shop: "@1"=Loja de troca: "@1"
+Owned by @1=Propriedade de @1
+
+Current stock:=Stock actual:
+You need:=Precisa:
+You give:=Dá:
+Exchange=Troca
+You get:=Recebe:
+Income=Rendimento
+Outgoing=Saída
+
+Use (E) + (Right click) for customer interface=Usar (E) + (clique direito) para a interface do cliente
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Não é possível cavar loja de troca: um ou vários stocks estão em uso.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Loja de câmbio: Insira os seus bens comerciais em 'Outgoing'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Um ou vários campos de ejecção são preenchidos.
+Please empty them or contact the shop owner.=Por favor, esvaziá-los ou contactar o proprietário da loja.
+The field '@1' can not contain multiple times the same items.=O campo '@1' não pode conter várias vezes os mesmos itens.
+Please contact the shop owner.=Por favor contacte o proprietário da loja.
+The stock in this shop is full.=O stock nesta loja está cheio.
+This shop is sold out.=Esta loja está esgotada.
+You do not have enough space in your inventory.=Não tem espaço suficiente no seu inventário.
+You do not have the required items.=Não tem os artigos necessários.
+Warning! Stacks are overflowing somewhere!=Advertência! As pilhas estão a transbordar em algum lugar!

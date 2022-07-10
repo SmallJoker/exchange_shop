@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Обмінний Магазин
+Exchange Shop:=Обмінний Магазин:
+Exchange Shop: "@1"=Обмінний Магазин: "@1"
+Owned by @1=Власник: @1
+
+Current stock:=Склад:
+You need:=Вам потрібно:
+You give:=Ви віддасте:
+Exchange=Обміняти
+You get:=Ви отримаєте:
+Income=Отримане
+Outgoing=Продається
+
+Use (E) + (Right click) for customer interface=Використовуйте (E) + (клацання правою кнопкою миші) для інтерфейсу клієнта
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Неможливо викопати Обмінний Магазин: використовується один або кілька осередків.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Обмінний Магазин: Вставте свої торгові товари в 'Вихідні'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Один або кілька полів викиду заповнені.
+Please empty them or contact the shop owner.=Будь ласка, спустошіть їх або зв'яжіться із власником магазину.
+The field '@1' can not contain multiple times the same items.=Поле '@1' не може містити кілька разів ті самі предмети.
+Please contact the shop owner.=Будь ласка, зв'яжіться із власником магазину.
+The stock in this shop is full.=Склад у цьому магазині повний.
+This shop is sold out.=Цей магазин розпродано.
+You do not have enough space in your inventory.=У вас недостатньо місця у інвентарі.
+You do not have the required items.=У вас немає потрібних предметів.
+Warning! Stacks are overflowing somewhere!=Увага! Десь переповнено склад!

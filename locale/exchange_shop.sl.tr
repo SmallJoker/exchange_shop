@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Trgovina Exchange Shop
+Exchange Shop:=Izmenjevalnica:
+Exchange Shop: "@1"=Trgovina z menjalnicami: "@1"
+Owned by @1=V lasti @1
+
+Current stock:=Trenutna zaloga:
+You need:=Potrebujete:
+You give:=Vi dajete:
+Exchange=Izmenjava
+You get:=Dobili boste:
+Income=Prihodki
+Outgoing=Odhajajoči
+
+Use (E) + (Right click) for customer interface=Uporabite (E) + (desni klik) za uporabniški vmesnik
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Ni mogoče izkopati menjalnice: v uporabi je ena ali več zalog.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Menjalnica: Vstavite svoje trgovsko blago v "Odhodno".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Zapolnjeno je eno ali več polj za izmet.
+Please empty them or contact the shop owner.=Izpraznite jih ali se obrnite na lastnika trgovine.
+The field '@1' can not contain multiple times the same items.=Polje "@1" ne more večkrat vsebovati istih elementov.
+Please contact the shop owner.=Obrnite se na lastnika trgovine.
+The stock in this shop is full.=Zaloga v tej trgovini je polna.
+This shop is sold out.=Ta trgovina je razprodana.
+You do not have enough space in your inventory.=V inventarju nimate dovolj prostora.
+You do not have the required items.=Nimate zahtevanih elementov.
+Warning! Stacks are overflowing somewhere!=Opozorilo! Nekje so kupi prepolni!

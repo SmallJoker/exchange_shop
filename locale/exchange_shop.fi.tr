@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Vaihtokauppa
+Exchange Shop:=Vaihtokauppa:
+Exchange Shop: "@1"=Vaihtokauppa: "@1"
+Owned by @1=Omistaa @1
+
+Current stock:=Nykyinen varasto:
+You need:=Tarvitset:
+You give:=Sinä annat:
+Exchange=Vaihto
+You get:=Saat:
+Income=Tulot
+Outgoing=Lähtevät
+
+Use (E) + (Right click) for customer interface=Käytä (E) + (hiiren kakkospainiketta) asiakkaan käyttöliittymää varten.
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Ei voi kaivaa vaihtokauppaa: yksi tai useampi varasto on käytössä.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Vaihtokauppa: Aseta kauppatavarasi kohtaan 'Lähtevät'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Yksi tai useampi heittokenttä on täytetty.
+Please empty them or contact the shop owner.=Tyhjennä ne tai ota yhteyttä kaupan omistajaan.
+The field '@1' can not contain multiple times the same items.=Kenttä '@1' ei voi sisältää useita kertoja samoja kohteita.
+Please contact the shop owner.=Ota yhteyttä myymälän omistajaan.
+The stock in this shop is full.=Kaupan varastot ovat täynnä.
+This shop is sold out.=Tämä kauppa on loppuunmyyty.
+You do not have enough space in your inventory.=Varastossasi ei ole tarpeeksi tilaa.
+You do not have the required items.=Sinulla ei ole tarvittavia tuotteita.
+Warning! Stacks are overflowing somewhere!=Varoitus! Pinot pursuavat jostain!

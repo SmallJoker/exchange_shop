@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Výmena tovaru
+Exchange Shop:=Výmena tovaru:
+Exchange Shop: "@1"=Výmena tovaru: "@1"
+Owned by @1=Vo vlastníctve @1
+
+Current stock:=Aktuálne zásoby:
+You need:=Potrebujete:
+You give:=Vy dávate:
+Exchange=Výmena
+You get:=Získate:
+Income=Príjmy
+Outgoing=Odchádzajúci
+
+Use (E) + (Right click) for customer interface=Použite (E) + (pravé tlačidlo myši) pre zákaznícke rozhranie
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Nemožno vykopať výmenný obchod: používa sa jedna alebo viacero zásob.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Výmena tovaru: Vložte svoj obchodný tovar do položky "Odchádzajúci".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Vyplní sa jedno alebo viacero vysúvacích polí.
+Please empty them or contact the shop owner.=Vyprázdnite ich alebo kontaktujte majiteľa obchodu.
+The field '@1' can not contain multiple times the same items.=Pole "@1" nemôže obsahovať viackrát rovnaké položky.
+Please contact the shop owner.=Obráťte sa na majiteľa obchodu.
+The stock in this shop is full.=Zásoby v tomto obchode sú plné.
+This shop is sold out.=Tento obchod je vypredaný.
+You do not have enough space in your inventory.=V inventári nemáte dostatok miesta.
+You do not have the required items.=Nemáte požadované položky.
+Warning! Stacks are overflowing somewhere!=Varovanie! Niekde pretekajú stohy!

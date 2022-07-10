@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Byttebutik
+Exchange Shop:=Byttebutik:
+Exchange Shop: "@1"=Byttebutik: "@1"
+Owned by @1=Ejet af @1
+
+Current stock:=Nuværende lager:
+You need:=Det skal du bruge:
+You give:=Du giver:
+Exchange=Udveksling
+You get:=Du får:
+Income=Indkomst
+Outgoing=Udgående
+
+Use (E) + (Right click) for customer interface=Brug (E) + (Højreklik) til kundegrænseflade
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Kan ikke åbne en byttebutik: en eller flere lagre er i brug.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Byttebutik: Indsæt dine byttevarer i "Udgående".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Et eller flere udsmidningsfelter er udfyldt.
+Please empty them or contact the shop owner.=Tøm dem venligst eller kontakt butiksejeren.
+The field '@1' can not contain multiple times the same items.=Feltet "@1" kan ikke indeholde flere gange de samme elementer.
+Please contact the shop owner.=Kontakt venligst butiksejeren.
+The stock in this shop is full.=Lageret i denne butik er fyldt op.
+This shop is sold out.=Denne butik er udsolgt.
+You do not have enough space in your inventory.=Du har ikke nok plads i dit inventar.
+You do not have the required items.=Du har ikke de nødvendige elementer.
+Warning! Stacks are overflowing somewhere!=Advarsel! Stakkene flyder over et sted!

@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Växelbutik
+Exchange Shop:=Bytesbutik:
+Exchange Shop: "@1"=Bytesbutik: "@1"
+Owned by @1=Ägs av @1
+
+Current stock:=Nuvarande lager:
+You need:=Du behöver:
+You give:=Du ger:
+Exchange=Utbyte
+You get:=Du får:
+Income=Inkomst
+Outgoing=Utgående
+
+Use (E) + (Right click) for customer interface=Använd (E) + (högerklick) för kundgränssnittet
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Kan inte gräva en bytesbutik: ett eller flera lager är i bruk.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Bytesbutik: Sätt in dina handelsvaror i "Outgoing".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Ett eller flera utkastningsfält är fyllda.
+Please empty them or contact the shop owner.=Töm dem eller kontakta butiksägaren.
+The field '@1' can not contain multiple times the same items.=Fältet "@1" kan inte innehålla samma objekt flera gånger.
+Please contact the shop owner.=Kontakta butiksägaren.
+The stock in this shop is full.=Lageret i butiken är fullt.
+This shop is sold out.=Den här butiken är slutsåld.
+You do not have enough space in your inventory.=Du har inte tillräckligt med utrymme i din inventarieförteckning.
+You do not have the required items.=Du har inte de nödvändiga artiklarna.
+Warning! Stacks are overflowing somewhere!=Varning! Staplarna svämmar över någonstans!

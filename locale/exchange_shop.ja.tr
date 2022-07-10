@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=交換ショップ
+Exchange Shop:=交換ショップです。
+Exchange Shop: "@1"=交換ショップです。"@1"
+Owned by @1=所有者：@1
+
+Current stock:=現在の在庫です。
+You need:=必要です。
+You give:=与えるのです。
+Exchange=交換
+You get:=得ることができます。
+Income=収入
+Outgoing=アウトゴーイング
+
+Use (E) + (Right click) for customer interface=カスタマーインターフェースの場合、(E)+(右クリック)を使用します。
+
+Cannot dig exchange shop: one or multiple stocks are in use.=交換ショップを掘ることができない：1つまたは複数のストックが使用中である。
+Exchange shop: Insert your trade goods into 'Outgoing'.=交換ショップです。交易品を「出庫」に入れる。
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=1つまたは複数の排出フィールドが埋まっている。
+Please empty them or contact the shop owner.=空けていただくか、店主までご連絡ください。
+The field '@1' can not contain multiple times the same items.=フィールド'@1'に同じ項目を複数回入れることはできません。
+Please contact the shop owner.=ショップオーナーにお問い合わせください。
+The stock in this shop is full.=当店の在庫は満杯です。
+This shop is sold out.=このショップは売り切れました。
+You do not have enough space in your inventory.=インベントリに十分なスペースがない。
+You do not have the required items.=必要なアイテムがない。
+Warning! Stacks are overflowing somewhere!=警告!書庫がどこかで溢れてる!

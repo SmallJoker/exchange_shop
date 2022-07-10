@@ -13,5 +13,19 @@ Exchange=Обменять
 You get:=Вы получите:
 Income=Полученное
 Outgoing=Продаваемое
-Title:=Название:
-Set=Устан.
+
+Use (E) + (Right click) for customer interface=Используйте (E) + (щелчок правой кнопкой мыши) для интерфейса клиента
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Невозможно выкопать Обменный Магазин: используется одна или несколько ячеек.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Обменный Магазин: Вставьте свои торговые товары в 'Исходящие'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Одно или несколько полей выброса заполнены.
+Please empty them or contact the shop owner.=Пожалуйста, опустошите их или свяжитесь с владельцем магазина.
+The field '@1' can not contain multiple times the same items.=Поле '@1' не может содержать несколько раз одни и те же предметы.
+Please contact the shop owner.=Пожалуйста, свяжитесь с владельцем магазина.
+The stock in this shop is full.=Склад в этом магазине полный.
+This shop is sold out.=Этот магазин распродан.
+You do not have enough space in your inventory.=У вас недостаточно места в инвентаре.
+You do not have the required items.=У вас нет необходимых предметов.
+Warning! Stacks are overflowing somewhere!=Внимание! Где-то переполнены склад!

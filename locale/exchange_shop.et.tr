@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Vahetuspood
+Exchange Shop:=Vahetuspood:
+Exchange Shop: "@1"=Vahetuspood: "@1"
+Owned by @1=Omanik @1
+
+Current stock:=Praegune varu:
+You need:=Sa pead:
+You give:=Sa annad:
+Exchange=Exchange
+You get:=Saate:
+Income=Sissetulek
+Outgoing=Väljaminev
+
+Use (E) + (Right click) for customer interface=Kasutage (E) + (paremklõps) kliendi kasutajaliidese jaoks
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Ei saa kaevata vahetuspoodi: üks või mitu varu on kasutusel.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Vahetuspood: Sisestage oma kauplemiskaubad "Väljaminevale".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Täidetud on üks või mitu väljaviskevälja.
+Please empty them or contact the shop owner.=Palun tühjendage need või võtke ühendust poe omanikuga.
+The field '@1' can not contain multiple times the same items.=Väli '@1' ei saa sisaldada mitu korda samu elemente.
+Please contact the shop owner.=Palun võtke ühendust poe omanikuga.
+The stock in this shop is full.=Selle poe varud on täis.
+This shop is sold out.=See pood on välja müüdud.
+You do not have enough space in your inventory.=Teil ei ole piisavalt ruumi oma inventari jaoks.
+You do not have the required items.=Teil ei ole nõutavaid esemeid.
+Warning! Stacks are overflowing somewhere!=Hoiatus! Hunnikud on kuskil üleval!

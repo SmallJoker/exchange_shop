@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Magazin de schimb valutar
+Exchange Shop:=Magazin de schimb:
+Exchange Shop: "@1"=Magazin de schimb: "@1"
+Owned by @1=Deținută de @1
+
+Current stock:=Stoc curent:
+You need:=Aveți nevoie de:
+You give:=Tu dai:
+Exchange=Schimbul
+You get:=Veți primi:
+Income=Venituri
+Outgoing=Ieșire
+
+Use (E) + (Right click) for customer interface=Utilizați (E) + (clic dreapta) pentru interfața cu clientul
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Nu se poate săpa magazinul de schimb: unul sau mai multe stocuri sunt în curs de utilizare.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Magazin de schimb: Introduceți mărfurile de schimb în "Ieșire".
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Se completează unul sau mai multe câmpuri de ejecție.
+Please empty them or contact the shop owner.=Vă rugăm să le goliți sau să contactați proprietarul magazinului.
+The field '@1' can not contain multiple times the same items.=Câmpul "@1" nu poate conține de mai multe ori aceleași elemente.
+Please contact the shop owner.=Vă rugăm să contactați proprietarul magazinului.
+The stock in this shop is full.=Stocul din acest magazin este plin.
+This shop is sold out.=Acest magazin este epuizat.
+You do not have enough space in your inventory.=Nu aveți suficient spațiu în inventar.
+You do not have the required items.=Nu aveți elementele necesare.
+Warning! Stacks are overflowing somewhere!=Atenție! Stivele se revarsă pe undeva!

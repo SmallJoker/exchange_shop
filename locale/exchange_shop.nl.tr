@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Ruilwinkel
+Exchange Shop:=Ruilwinkel:
+Exchange Shop: "@1"=Ruilwinkel: "@1"
+Owned by @1=Eigendom van @1
+
+Current stock:=Huidige voorraad:
+You need:=Je hebt het nodig:
+You give:=Jij geeft:
+Exchange=Uitwisseling
+You get:=Je krijgt:
+Income=Inkomen
+Outgoing=Uitgaand
+
+Use (E) + (Right click) for customer interface=Gebruik (E) + (Rechts klikken) voor klanteninterface
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Kan ruilwinkel niet graven: een of meer voorraden zijn in gebruik.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Ruilwinkel: Plaats uw handelsgoederen in 'Uitgaand'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Een of meer uitwerpvelden zijn gevuld.
+Please empty them or contact the shop owner.=Leeg ze alsjeblieft of neem contact op met de eigenaar van de winkel.
+The field '@1' can not contain multiple times the same items.=Het veld '@1' kan niet meerdere keren dezelfde items bevatten.
+Please contact the shop owner.=Neem contact op met de eigenaar van de winkel.
+The stock in this shop is full.=De voorraad in deze winkel is vol.
+This shop is sold out.=Deze winkel is uitverkocht.
+You do not have enough space in your inventory.=Je hebt niet genoeg ruimte in je inventaris.
+You do not have the required items.=U heeft niet de vereiste spullen.
+Warning! Stacks are overflowing somewhere!=Waarschuwing! De stapels zijn ergens overvol!

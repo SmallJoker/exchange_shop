@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Mainų parduotuvė
+Exchange Shop:=Mainų parduotuvė:
+Exchange Shop: "@1"=Mainų parduotuvė: "@1"
+Owned by @1=Priklauso @1
+
+Current stock:=Dabartinės atsargos:
+You need:=Jums reikia:
+You give:=Jūs duodate:
+Exchange=Keitimasis
+You get:=Jūs gaunate:
+Income=Pajamos
+Outgoing=Išeinantis
+
+Use (E) + (Right click) for customer interface=Naudokite (E) + (dešiniuoju pelės mygtuku spustelėkite) klientų sąsajai
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Negalima iškasti mainų parduotuvės: naudojama viena arba kelios atsargos.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Mainų parduotuvė: Į "Išeinančias" įkelkite savo prekybos prekes.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Užpildomas vienas arba keli išmetimo laukai.
+Please empty them or contact the shop owner.=Ištuštinkite juos arba susisiekite su parduotuvės savininku.
+The field '@1' can not contain multiple times the same items.=Lauke "@1" negali būti tų pačių elementų kelis kartus.
+Please contact the shop owner.=Kreipkitės į parduotuvės savininką.
+The stock in this shop is full.=Šios parduotuvės atsargos yra pilnos.
+This shop is sold out.=Ši parduotuvė išparduota.
+You do not have enough space in your inventory.=Jūsų inventoriuje nepakanka vietos.
+You do not have the required items.=Neturite reikiamų elementų.
+Warning! Stacks are overflowing somewhere!=Įspėjimas! Kažkur perpildytos krūvos!

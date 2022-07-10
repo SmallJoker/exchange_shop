@@ -1,15 +1,5 @@
 local S = exchange_shop.S
 
-function exchange_shop.has_access(meta, player_name)
-	local owner = meta:get_string("owner")
-	if player_name == owner or owner == "" then
-		return true
-	end
-	local privs = minetest.get_player_privs(player_name)
-	return privs.server or privs.protection_bypass
-end
-
-
 -- Tool wear aware replacement for contains_item.
 function exchange_shop.list_contains_item(inv, listname, stack)
 	local count = stack:get_count()
@@ -72,8 +62,7 @@ function exchange_shop.list_remove_item(inv, listname, stack)
 end
 
 function exchange_shop.exchange_action(player_inv, shop_inv, pos)
-	if not shop_inv:is_empty("cust_ej")
-			or not shop_inv:is_empty("custm_ej") then
+	if not shop_inv:is_empty("custm_ej") then
 		return S("One or multiple ejection fields are filled.") .. " " ..
 			S("Please empty them or contact the shop owner.")
 	end
@@ -159,9 +148,6 @@ function exchange_shop.exchange_action(player_inv, shop_inv, pos)
 			player_inv:add_item("main", stack)
 		else
 			minetest.item_drop(stack, nil, pos)
-			-- Move to ejection field
-		--	shop_inv:add_item("cust_ej", stack)
-		--	fully_exchanged = false
 		end
 	end
 	if not fully_exchanged then

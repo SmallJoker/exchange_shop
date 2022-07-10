@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Toko Pertukaran
+Exchange Shop:=Toko Pertukaran:
+Exchange Shop: "@1"=Toko Pertukaran: "@1"
+Owned by @1=Dimiliki oleh @1
+
+Current stock:=Stok saat ini:
+You need:=Anda perlu:
+You give:=Anda berikan:
+Exchange=Pertukaran
+You get:=Anda mendapatkannya:
+Income=Pendapatan
+Outgoing=Keluar
+
+Use (E) + (Right click) for customer interface=Gunakan (E) + (Klik kanan) untuk antarmuka pelanggan
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Tidak bisa menggali toko pertukaran: satu atau beberapa stok sedang digunakan.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Tukar toko: Masukkan barang dagangan Anda ke dalam 'Outgoing'.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Satu atau beberapa bidang ejeksi diisi.
+Please empty them or contact the shop owner.=Silakan kosongkan atau hubungi pemilik toko.
+The field '@1' can not contain multiple times the same items.=Bidang '@1' tidak bisa berisi beberapa kali item yang sama.
+Please contact the shop owner.=Silakan hubungi pemilik toko.
+The stock in this shop is full.=Stok di toko ini sudah penuh.
+This shop is sold out.=Toko ini sudah terjual habis.
+You do not have enough space in your inventory.=Anda tidak memiliki cukup ruang dalam inventaris Anda.
+You do not have the required items.=Anda tidak memiliki item yang diperlukan.
+Warning! Stacks are overflowing somewhere!=Peringatan! Tumpukan meluap di suatu tempat!

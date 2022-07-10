@@ -1,0 +1,31 @@
+# textdomain: exchange_shop
+
+# shop.lua
+Exchange Shop=Değişim Mağazası
+Exchange Shop:=Değişim Dükkanı:
+Exchange Shop: "@1"=Değişim Dükkanı: "@1"
+Owned by @1=Sahibi @1
+
+Current stock:=Mevcut stok:
+You need:=İhtiyacın var:
+You give:=Sen ver:
+Exchange=Değişim
+You get:=Alacaksın:
+Income=Gelir
+Outgoing=Giden
+
+Use (E) + (Right click) for customer interface=Müşteri arayüzü için (E) + (Sağ tık) kullanın
+
+Cannot dig exchange shop: one or multiple stocks are in use.=Değişim mağazası kazılamıyor: bir veya birden fazla stok kullanımda.
+Exchange shop: Insert your trade goods into 'Outgoing'.=Takas dükkanı: Ticaret mallarınızı 'Giden' kısmına yerleştirin.
+
+# shop_functions.lua
+One or multiple ejection fields are filled.=Bir veya birden fazla fırlatma alanı doldurulur.
+Please empty them or contact the shop owner.=Lütfen bunları boşaltın veya mağaza sahibiyle iletişime geçin.
+The field '@1' can not contain multiple times the same items.='@1' alanı aynı öğeleri birden fazla kez içeremez.
+Please contact the shop owner.=Lütfen mağaza sahibiyle iletişime geçin.
+The stock in this shop is full.=Bu dükkandaki stok dolu.
+This shop is sold out.=Bu dükkan tükendi.
+You do not have enough space in your inventory.=Envanterinizde yeterli yer yok.
+You do not have the required items.=Gerekli öğelere sahip değilsiniz.
+Warning! Stacks are overflowing somewhere!=Dikkat! Yığınlar bir yerlerden taşıyor!

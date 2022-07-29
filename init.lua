@@ -8,3 +8,7 @@ exchange_shop.S = minetest.get_translator("exchange_shop")
 local modpath = minetest.get_modpath("exchange_shop")
 dofile(modpath .. "/shop_functions.lua")
 dofile(modpath .. "/shop.lua")
+
+if mesecon and mesecon.register_mvps_stopper then
+	mesecon.register_mvps_stopper(exchange_shop.shopname)
+end

@@ -7,7 +7,7 @@ read_globals = {
 	"PseudoRandom", "ItemStack",
 	"AreaStore",
 	"default",
-	"player_api",
+	"mesecon",
 }
 
 globals = {

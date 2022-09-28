@@ -23,11 +23,11 @@ Optional dependencies:
 
 ## License
 
-Textures: CC0 - or see notes below
-
 Code: MIT
 
-Following textures were imported from [currency](https://github.com/minetest-mods/currency)
- * shop_front.png
- * shop_side.png
- * shop_top.png
+Authors of textures
+-------------------
+MultiCraft Development Team
+
+Graphics in this mod is NOT free and can be used only as part of the official MultiCraft build.
+Allowed to be used in non-official builds ONLY for personal use.

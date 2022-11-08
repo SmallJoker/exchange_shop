@@ -194,7 +194,7 @@ local gui = flow.widgets
 local item_picker = flow.make_gui(function(player, ctx)
 	local rows = {
 		name = "items",
-		w = 11.8, h = 5.8,
+		w = 10.6, h = 5.8,
 		custom_scrollbar = {
 			w = 0.9,
 			scrollbar_bg = "inventory_creative_scrollbar_bg.png",
@@ -220,7 +220,7 @@ local item_picker = flow.make_gui(function(player, ctx)
 	for _, item in ipairs(items_cache) do
 		local description = minetest.registered_items[item].description
 		if matches_search(query, description, lang) then
-			if #row >= 10 then
+			if #row >= 9 then
 				rows[#rows + 1] = gui.HBox(row)
 				row = {}
 			end

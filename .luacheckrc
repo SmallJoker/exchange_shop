@@ -8,6 +8,8 @@ read_globals = {
 	"AreaStore",
 	"default",
 	"mesecon",
+	"utf8",
+	"flow",
 }
 
 globals = {

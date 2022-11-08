@@ -77,7 +77,9 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		for y2 = 1, h do
 			for x2 = 1, w do
 				i = i + 1
-				fs[#fs + 1] = ("image_button[%s,%s;1.2,1.2;;%s_%s;;false;false]"):format(x + x2 - 1.1, y + y2 - 1.1, list, i)
+				fs[#fs + 1] = ("image_button[%s,%s;1.2,1.2;;%s_%s;;false;false]"):format(
+					x + x2 - 1.1, y + y2 - 1.1, list, i
+				)
 			end
 		end
 		return tconcat(fs)
@@ -221,7 +223,7 @@ local item_picker = flow.make_gui(function(player, ctx)
 			row[#row + 1] = gui.ItemImageButton{
 				w = 1, h = 1,
 				item_name = item,
-				on_event = function(p, c)
+				on_event = function(_, c)
 					if c.item ~= item or c.form.amount ~= "1" then
 						c.item = item
 						c.desc = description or item
@@ -237,8 +239,6 @@ local item_picker = flow.make_gui(function(player, ctx)
 	else
 		rows[#rows + 1] = gui.Label{label = S("No items found.")}
 	end
-
-	local item_preview
 
 	return gui.VBox{
 		gui.HBox{
@@ -298,7 +298,7 @@ local item_picker = flow.make_gui(function(player, ctx)
 				gui.Button{
 					label = S("Clear"),
 					w = 3.5,
-					on_event = function(p, c)
+					on_event = function(_, c)
 						c.item = ""
 						c.form.amount = "0"
 						return true
@@ -404,7 +404,7 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			for _, stack in ipairs(shop_inv:get_list(listname)) do
 				local leftover = pinv:add_item("main", stack)
 				if not leftover:is_empty() then
-					minetest.add_item(sender:get_pos(), remaining_stack)
+					minetest.add_item(sender:get_pos(), leftover)
 				end
 			end
 		end

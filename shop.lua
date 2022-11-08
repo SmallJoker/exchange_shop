@@ -192,13 +192,17 @@ end
 
 local gui = flow.widgets
 local item_picker = flow.make_gui(function(player, ctx)
-	local rows = {name='items', w = 11.8, h = 5.8, custom_scrollbar = {
-		w = 0.9,
-		scrollbar_bg = "inventory_creative_scrollbar_bg.png",
-		slider = "inventory_creative_slider.png",
-		arrow_up = "inventory_creative_arrow_up.png",
-		arrow_down = "inventory_creative_arrow_down.png",
-	}}
+	local rows = {
+		name = "items",
+		w = 11.8, h = 5.8,
+		custom_scrollbar = {
+			w = 0.9,
+			scrollbar_bg = "inventory_creative_scrollbar_bg.png",
+			slider = "inventory_creative_slider.png",
+			arrow_up = "inventory_creative_arrow_up.png",
+			arrow_down = "inventory_creative_arrow_down.png",
+		}
+	}
 
 	local query = ctx.form.Dsearch and lower(ctx.form.Dsearch) or ""
 

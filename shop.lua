@@ -253,9 +253,32 @@ local item_picker = flow.make_gui(function(player, ctx)
 			},
 			gui.Label{label = S("Select item"), align_h = "left", expand = true},
 
+			gui.ImageButtonExit{
+				w = 0.7, h = 0.7, name = "exit", align_v = "top",
+				texture_name = "close.png",
+				pressed_texture_name = "close_pressed.png", drawborder = false
+			},
+		},
+		gui.StyleType{
+			selectors = {"item_image_button"},
+			props = {
+				bgimg = "formspec_cell.png",
+				bgimg_hovered = "formspec_cell.png^[brighten",
+				border = false,
+			}
+		},
+		gui.ScrollableVBox(rows),
+		gui.HBox{
+			gui.ItemImage{w = 1, h = 1, item_name = ctx.item},
+			gui.Label{
+				label = ctx.desc and ctx.item ~= "" and
+					S("Selected item: @1", ctx.desc) or
+					S("No item selected")
+			},
+
 			-- Search box
 			gui.HBox{
-				align_v = "centre",
+				expand = true, align_h = "end", align_v = "centre",
 				bgimg = "inventory_search_bg9.png",
 				bgimg_middle = 25,
 				spacing = 0,
@@ -276,23 +299,6 @@ local item_picker = flow.make_gui(function(player, ctx)
 						end
 					end
 				},
-			}
-		},
-		gui.StyleType{
-			selectors = {"item_image_button"},
-			props = {
-				bgimg = "formspec_cell.png",
-				bgimg_hovered = "formspec_cell.png^[brighten",
-				border = false,
-			}
-		},
-		gui.ScrollableVBox(rows),
-		gui.HBox{
-			gui.ItemImage{w = 1, h = 1, item_name = ctx.item},
-			gui.Label{
-				label = ctx.desc and ctx.item ~= "" and
-					S("Selected item: @1", ctx.desc) or
-					S("No item selected")
 			},
 		},
 		gui.HBox{
@@ -316,7 +322,7 @@ local item_picker = flow.make_gui(function(player, ctx)
 
 						-- Only update the inventory if the shop has been updated
 						local meta = minetest.get_meta(c.pos)
-						if not minetest.is_yes(meta:get_string("item_picker")) then
+						if minetest.is_yes(meta:get_string("item_picker")) then
 							local item = ItemStack(c.item)
 							local amount = tonumber(c.form.amount)
 							if amount and amount == amount and amount >= 1 then

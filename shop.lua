@@ -271,6 +271,7 @@ local item_picker = flow.make_gui(function(player, ctx)
 		gui.HBox{
 			gui.ItemImage{w = 1, h = 1, item_name = ctx.item},
 			gui.Label{
+				w = 1, -- Don't auto-detect the label width
 				label = ctx.desc and ctx.item ~= "" and
 					S("Selected item: @1", ctx.desc) or
 					S("No item selected")

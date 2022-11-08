@@ -80,7 +80,6 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 				fs[#fs + 1] = ("image_button[%s,%s;1.2,1.2;;%s_%s;;false;false]"):format(x + x2 - 1.1, y + y2 - 1.1, list, i)
 			end
 		end
-		print(dump(fs))
 		return tconcat(fs)
 	end
 
@@ -88,18 +87,22 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 		local overflow = not meta:get_inventory():is_empty("custm_ej")
 
 		-- owner
-		local formspec = (
+		local formspec =
 			"formspec_version[3]size[10,10]real_coordinates[false]" ..
 			"item_image[0,-0.1;1,1;".. exchange_shop.shopname .. "]" ..
 			"label[0.9,0.1;" .. S("Exchange Shop") .. "]" ..
 			default.gui_close_btn("9.3,-0.1") ..
+			"label[5,0.4;" .. S("Current stock:") .. "]" ..
 			make_slots_btns(0.1, 2, 2, 2, "cust_ow", S("You need:")) ..
-			make_slots_btns(2.6, 2, 2, 2, "cust_og", S("You give:")) ..
-			"label[5,0.4;" .. S("Current stock:") .. "]"
-		)
+			make_slots_btns(2.6, 2, 2, 2, "cust_og", S("You give:"))
+
+		if not minetest.is_yes(meta:get_string("item_picker")) then
+			formspec = formspec ..
+				"button[0.5,0.9;4,0.8;update;" .. S("Update shop") .. "]"
+		end
 
 		if overflow then
-			formspec = (formspec ..
+			formspec = formspec ..
 				"item_image[0.1,4.4;1,1;default:cell]" ..
 				"item_image[1.1,4.4;1,1;default:cell]" ..
 				"item_image[2.1,4.4;1,1;default:cell]" ..
@@ -107,7 +110,6 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 				"list[" .. name .. ";custm_ej;0.1,4.4;4,1;]" ..
 				"label[0.1,5.3;" .. S("Ejected items:") .. " " .. S("Remove me!") .. "]" ..
 				listring("custm_ej")
-			)
 		end
 
 		local stock_image = ""
@@ -306,18 +308,22 @@ local item_picker = flow.make_gui(function(player, ctx)
 					label = S("Save"),
 					w = 3.5,
 					on_event = function(p, c)
-						if shop_valid(c.pos, p) then
+						if not shop_valid(c.pos, p) then return end
+
+						-- Only update the inventory if the shop has been updated
+						local meta = minetest.get_meta(c.pos)
+						if not minetest.is_yes(meta:get_string("item_picker")) then
 							local item = ItemStack(c.item)
 							local amount = tonumber(c.form.amount)
 							if amount and amount == amount and amount >= 1 then
 								item:set_count(math.min(amount, item:get_stack_max()))
 							end
 							shop_positions[name] = c.pos
-							local meta = minetest.get_meta(c.pos)
 							meta:get_inventory():set_stack(c.list, c.idx, item)
-							minetest.show_formspec(name, "exchange_shop:shop_formspec",
-								get_exchange_shop_formspec("owner_custm", c.pos, meta))
 						end
+
+						minetest.show_formspec(name, "exchange_shop:shop_formspec",
+							get_exchange_shop_formspec("owner_custm", c.pos, meta))
 					end,
 				},
 			},
@@ -369,7 +375,9 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 		end
 		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
 			get_exchange_shop_formspec(mode, pos, meta))
-	else
+	elseif minetest.is_yes(meta:get_string("item_picker")) and
+			not minetest.is_protected(pos, player_name) then
+		-- Item picker is enabled
 		for field in pairs(fields) do
 			local list, idx = field:match("(cust_o[wg])_([1-4])")
 			if list then
@@ -386,6 +394,26 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 				return
 			end
 		end
+	elseif fields.update and not minetest.is_protected(pos, player_name) then
+		-- Item picker is not enabled (due to the previous elseif)
+
+		-- Give the shop owner their items back
+		local shop_inv = meta:get_inventory()
+		local pinv = sender:get_inventory()
+		for _, listname in ipairs({"cust_ow", "cust_og"}) do
+			for _, stack in ipairs(shop_inv:get_list(listname)) do
+				local leftover = pinv:add_item("main", stack)
+				if not leftover:is_empty() then
+					minetest.add_item(sender:get_pos(), remaining_stack)
+				end
+			end
+		end
+
+		-- Mark the shop as upgraded
+		meta:set_string("item_picker", "true")
+
+		minetest.show_formspec(player_name, "exchange_shop:shop_formspec",
+			get_exchange_shop_formspec("owner_custm", pos, meta))
 	end
 end)
 

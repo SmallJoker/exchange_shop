@@ -7,7 +7,7 @@ This code is based on the idea of Dan Duncombe's exchange shop
 
 local S = exchange_shop.S
 local FS = exchange_shop.FS
-local shop_positions = {}
+local shop_positions = {} -- for formspec inputs
 
 local function get_exchange_shop_formspec(mode, pos, meta)
 	local name = "nodemeta:"..pos.x..","..pos.y..","..pos.z
@@ -166,16 +166,30 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 	end
 end)
 
+local compat_sound
+local compat_item_sign
+local compat_item_chest
+if core.get_modpath("default") then
+	compat_sound = default.node_sound_wood_defaults()
+	compat_item_sign = "default:sign_wall"
+	compat_item_chest = "default:chest_locked"
+end
+if core.get_modpath("mcl_sounds") then
+	compat_sound = mcl_sounds.node_sound_wood_defaults()
+	compat_item_sign = "group:sign"
+	compat_item_chest = "mcl_chests:chest"
+end
+
 minetest.register_node(exchange_shop.shopname, {
 	description = S"Exchange Shop",
 	tiles = {
-		"shop_top.png", "shop_top.png", 
+		"shop_top.png", "shop_top.png",
 		"shop_side.png","shop_side.png",
 		"shop_side.png", "shop_front.png"
 	},
 	paramtype2 = "facedir",
 	groups = {choppy=2, oddly_breakable_by_hand=2},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = compat_sound,
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local owner = placer:get_player_name()
@@ -228,10 +242,13 @@ minetest.register_node(exchange_shop.shopname, {
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if listname == "custm" then
-			minetest.chat_send_player(player:get_player_name(),
-				S("Exchange shop: Insert your trade goods into 'Outgoing'."))
+			if not player.is_fake_player then
+				core.chat_send_player(player:get_player_name(),
+					S("Exchange shop: Insert your trade goods into 'Outgoing'."))
+			end
 			return 0
 		end
+
 		local meta = minetest.get_meta(pos)
 		if exchange_shop.has_access(meta, player:get_player_name())
 				and listname ~= "cust_ej"
@@ -250,13 +267,15 @@ minetest.register_node(exchange_shop.shopname, {
 	end,
 })
 
-minetest.register_craft({
-	output = "exchange_shop:shop",
-	recipe = {
-		{"default:sign_wall"},
-		{"default:chest_locked"},
-	}
-})
+if compat_item_sign then
+	minetest.register_craft({
+		output = "exchange_shop:shop",
+		recipe = {
+			{compat_item_sign},
+			{compat_item_chest},
+		}
+	})
+end
 
 minetest.register_on_leaveplayer(function(player)
 	shop_positions[player:get_player_name()] = nil

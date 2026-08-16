@@ -34,5 +34,11 @@ if minetest.get_modpath("tubelib") then
 			return tubelib.put_item(meta, "stock", item)
 		end,
 	})
+end
 
+if core.get_modpath("hopper") and hopper then
+	hopper:add_container({
+		{"top",    exchange_shop.shopname, "custm"},
+		{"bottom", exchange_shop.shopname, "stock"},
+	})
 end

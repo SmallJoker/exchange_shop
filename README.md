@@ -6,19 +6,17 @@
 
 This mod adds an improved ("currency" compatible) shop to your world.
 
-Requires 5.0.0-dev or newer
+Requires Luanti 5.0.0 or newer
 
-Features:
+**Features:**
+
  * 4 buyer and 4 seller slots
  * Much storage capacity
- * Custom shop title settable
- * pipeworks compatibilty
-
-
-Optional dependencies:
- * currency
- * bitchange
- * wrench
+ * Custom shop title
+ * `pipeworks` support
+ * `tubelib` support
+ * [`hopper`](https://github.com/minetest-mods/hopper) support
+ * Replaces the `currency` shops
 
 
 ## License

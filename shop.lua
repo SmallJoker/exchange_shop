@@ -100,6 +100,19 @@ local function get_exchange_shop_formspec(mode, pos, meta)
 	return ""
 end
 
+local function set_title(meta, title)
+	title = title:trim():sub(1, 80)
+	local shop_owner = meta:get_string("owner")
+
+	local infotext = S("(owned by @1)", shop_owner)
+	if title ~= "" then
+		infotext = ("'%s' %s"):format(title, infotext)
+	else
+		infotext = ("%s %s"):format(S("Exchange Shop"), infotext)
+	end
+	meta:set_string("infotext", infotext)
+	meta:set_string("title", core.formspec_escape(title))
+end
 
 minetest.register_on_player_receive_fields(function(sender, formname, fields)
 	if formname ~= "exchange_shop:shop_formspec" then
@@ -119,21 +132,10 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 	end
 
 	local meta = minetest.get_meta(pos)
-	local title = meta:get_string("title")
-	local shop_owner = meta:get_string("owner")
 
 	if fields.title and exchange_shop.has_access(meta, player_name) then
 		-- Limit title length
-		fields.title = fields.title:sub(1, 80)
-		if title ~= fields.title then
-			if fields.title ~= "" then
-				meta:set_string("infotext", "'" .. fields.title
-					.. "' (" .. S("owned by @1", shop_owner) .. ")")
-			else
-				meta:set_string("infotext", S("Exchange shop (owned by @1", shop_owner) .. ")" )
-			end
-			meta:set_string("title", minetest.formspec_escape(fields.title))
-		end
+		set_title(meta, fields.title)
 	end
 
 	if fields.exchange then
@@ -194,15 +196,15 @@ minetest.register_node(exchange_shop.shopname, {
 		local meta = minetest.get_meta(pos)
 		local owner = placer:get_player_name()
 		meta:set_string("owner", owner)
-		meta:set_string("infotext", S("Exchange shop (owned by @1", owner) .. ")")
+		set_title(meta, "")
 	end,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Exchange shop (constructing)"))
+		meta:set_string("infotext", "Exchange shop (constructing)")
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
-		inv:set_size("stock", exchange_shop.storage_size) -- needed stock for exchanges
-		inv:set_size("custm", exchange_shop.storage_size) -- stock of the customers exchanges
+		inv:set_size("stock", exchange_shop.storage_size) -- items to give the customer
+		inv:set_size("custm", exchange_shop.storage_size) -- items the customer gave
 		inv:set_size("custm_ej", 4) -- ejected items if shop has no inventory room
 		inv:set_size("cust_ow", 2*2) -- owner wants
 		inv:set_size("cust_og", 2*2) -- owner gives
